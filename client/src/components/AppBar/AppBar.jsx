@@ -5,13 +5,11 @@ import {
   Toolbar,
   Container,
   Button,
-  TextField,
-  Stack,
+
 } from "@mui/material";
 
-import { Link } from "react-router-dom";
-
 import ConnectWithoutContactIcon from "@mui/icons-material/ConnectWithoutContact";
+import React from "react";
 
 const NavBar = () => {
   return (
@@ -58,7 +56,10 @@ const NavBar = () => {
                   sx={{
                     mr: 2,
                     color: "#000000",
-                    backgroundColor: "#21b6ae",
+                    backgroundColor: "#5bc2bb",
+                    "&:hover": {
+                      backgroundColor: "#21b6ae",
+                    },
                   }}
                 >
                   Sign in
@@ -68,7 +69,10 @@ const NavBar = () => {
                   variant="outlined"
                   sx={{
                     color: "#000000",
-                    backgroundColor: "#21b6ae",
+                    backgroundColor: "#5bc2bb",
+                    "&:hover": {
+                      backgroundColor: "#21b6ae",
+                    },
                   }}
                 >
                   Sign up
@@ -78,48 +82,6 @@ const NavBar = () => {
           </Container>
         </AppBar>
       </Box>
-      <Container maxWidth={"xs"} sx={{ mt: 10, background: "#e8efe6" }}>
-        <Stack alignItems="center">
-          <Typography variant="h5" gutterBottom>
-            Login
-          </Typography>
-          <Typography color="text.secondary">
-            Don't have an account yet?
-          </Typography>
-          <Box component="form" textAlign="center">
-            <TextField
-              label="Email Address"
-              fullWidth
-              margin="normal"
-              required
-              id="email"
-              name="email"
-              type="email"
-            />
-            <TextField
-              label="Password"
-              fullWidth
-              required
-              margin="normal"
-              id="password  "
-              name="password"
-              type="password"
-            />
-
-            <Button
-              type="submit"
-              variant="outlined"
-              sx={{
-                my: 2,
-                backgroundColor: "#21b6ae",
-                color: "#000000",
-              }}
-            >
-              Login
-            </Button>
-          </Box>
-        </Stack>
-      </Container>
     </>
   );
 };

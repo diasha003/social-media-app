@@ -1,10 +1,19 @@
-import AppBar from "./components/AppBar";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AppBar from "./components/AppBar/AppBar";
+import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
 
 function App() {
   return (
-    <div className="App">
+    <>
       <AppBar></AppBar>
-    </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login></Login>}></Route>
+          <Route path="/signup" element={<Register></Register>}></Route>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
