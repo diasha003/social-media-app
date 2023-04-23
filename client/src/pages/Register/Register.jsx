@@ -9,11 +9,13 @@ import {
 import { withStyles } from "@mui/styles";
 import * as yup from "yup";
 
-import React from "react";
+import React, { useState } from "react";
 import Dropzone from "react-dropzone";
+import { useDropzone } from "react-dropzone";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Formik } from "formik";
+import axios from "axios";
 
 const CssTextField = withStyles({
   root: {
@@ -63,7 +65,7 @@ const registerShema = yup.object().shape({
     .required("Required"),
   location: yup.string().required("Required"),
   occupation: yup.string().required("Required"),
-
+  pictureFormat: yup.string(),
   email: yup.string().email("Invalid email").required("Required"),
   password: yup
     .string()
@@ -75,17 +77,37 @@ const registerShema = yup.object().shape({
 });
 
 const Register = () => {
-  const funcRegister = async (values) => {
-    const formData = new FormData();
-    for (let value in values) {
-      formData.append(value, values[value]);
-    }
-    formData.append("picturePath", values.picture.name);
+  const navigate = useNavigate();
 
-    const savedUserResponce = await fetch("", {
-      method: "POST",
-      body: formData,
-    });
+  const funcRegister = async (values, onSubmitProps) => {
+    try {
+      //console.log(onSubmitProps);
+      const formData = new FormData();
+      for (let value in values) {
+        formData.append(value, values[value]);
+      }
+      values.picture.name
+        ? formData.append("picturePath", values.picture.name)
+        : formData.append("picturePath", "");
+
+      const savedUserResponce = await axios.post(
+        "http://localhost:3001/auth/register",
+        formData
+      );
+
+      const savedUser = savedUserResponce.data;
+      console.log(savedUser);
+      //loginUser(savedUser.token);
+      navigate("/login");
+    } catch (error) {
+      if (error.response.data) {
+        if (error.response.data.message === "Email must be unique") {
+          onSubmitProps.setErrors({ email: "Email must be unique" });
+        } else {
+          console.log(error);
+        }
+      }
+    }
   };
 
   return (
@@ -100,6 +122,7 @@ const Register = () => {
         <Formik
           initialValues={initialValuesRegister}
           validationSchema={registerShema}
+          onSubmit={funcRegister}
         >
           {({
             values,
@@ -108,12 +131,15 @@ const Register = () => {
             handleBlur,
             handleChange,
             setFieldValue,
+            setErrors,
+            handleSubmit,
+            resetForm,
+            handleReset,
           }) => (
-            <>
+            <form onSubmit={handleSubmit}>
               <Box
-                component="form"
                 display="grid"
-                gap="10px"
+                gap="12px"
                 sx={{
                   gridColumn: undefined,
                 }}
@@ -170,9 +196,19 @@ const Register = () => {
                   <Dropzone
                     acceptedFiles=".jpg,.jpeg,.png"
                     multiple={false}
-                    onDrop={(acceptedFiles) =>
-                      setFieldValue("picture", acceptedFiles[0])
-                    }
+                    name="pictureFormat"
+                    onDrop={(acceptedFiles) => {
+                      //console.log(acceptedFiles[0].type);
+                      if (
+                        !["image/jpeg", "image/jpg", "image/png"].includes(
+                          acceptedFiles[0].type
+                        )
+                      ) {
+                        alert("Only .jpg, .jpeg or .png");
+                      } else {
+                        setFieldValue("picture", acceptedFiles[0]);
+                      }
+                    }}
                   >
                     {({ getRootProps, getInputProps }) => (
                       <Box
@@ -186,7 +222,10 @@ const Register = () => {
                       >
                         <input {...getInputProps()} />
                         {!values.picture ? (
-                          <p>Add Picture Here</p>
+                          <p>
+                            Drag and drop some files here, or click to select
+                            files
+                          </p>
                         ) : (
                           <Box
                             display="flex"
@@ -204,7 +243,7 @@ const Register = () => {
 
                 <CssTextField
                   label="Email *"
-                  id="email"
+                  name="email"
                   sx={{ gridColumn: "span 4" }}
                   onBlur={handleBlur}
                   onChange={handleChange}
@@ -213,6 +252,7 @@ const Register = () => {
                 />
                 <CssTextField
                   label="Password"
+                  type="password"
                   name="password"
                   sx={{ gridColumn: "span 4" }}
                   onBlur={handleBlur}
@@ -222,21 +262,23 @@ const Register = () => {
                 />
               </Box>
 
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{
-                  my: 1,
-                  color: "#000000",
-                  backgroundColor: "#5bc2bb",
-                  "&:hover": {
-                    backgroundColor: "#21b6ae",
-                  },
-                }}
-              >
-                Login
-              </Button>
-            </>
+              <Box textAlign="center">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{
+                    my: 1,
+                    color: "#000000",
+                    backgroundColor: "#5bc2bb",
+                    "&:hover": {
+                      backgroundColor: "#21b6ae",
+                    },
+                  }}
+                >
+                  Sign Up
+                </Button>
+              </Box>
+            </form>
           )}
         </Formik>
       </Stack>
