@@ -1,6 +1,6 @@
 const loginUser = (token) => {
   console.log(token);
-  localStorage.setItem("__token", token);
+  localStorage.setItem("token", token);
   // window.localStorage.setItem("token", token);
 };
 

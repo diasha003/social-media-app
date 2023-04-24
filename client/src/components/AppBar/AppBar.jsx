@@ -5,8 +5,8 @@ import {
   Toolbar,
   Container,
   Button,
-
 } from "@mui/material";
+import axios from "axios";
 
 import ConnectWithoutContactIcon from "@mui/icons-material/ConnectWithoutContact";
 import React from "react";
@@ -54,28 +54,27 @@ const NavBar = () => {
                   size="small"
                   variant="outlined"
                   sx={{
-                    mr: 2,
                     color: "#000000",
                     backgroundColor: "#5bc2bb",
                     "&:hover": {
                       backgroundColor: "#21b6ae",
                     },
                   }}
-                >
-                  Sign in
-                </Button>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  sx={{
-                    color: "#000000",
-                    backgroundColor: "#5bc2bb",
-                    "&:hover": {
-                      backgroundColor: "#21b6ae",
-                    },
+                  onClick={async () => {
+                    const { data } = await axios.get(
+                      "http://localhost:3001/auth/info",
+                      {
+                        headers: {
+                          Authorization:
+                            "Bearer " + window.localStorage.getItem("token"),
+                        },
+                      }
+                    );
+
+                    console.log(data);
                   }}
                 >
-                  Sign up
+                  info
                 </Button>
               </Box>
             </Toolbar>
@@ -87,3 +86,16 @@ const NavBar = () => {
 };
 
 export default NavBar;
+
+/* <Button
+                  size="small"
+                  variant="outlined"
+                  sx={{
+                    mr: 2,
+                    color: "#000000",
+                    backgroundColor: "#5bc2bb",
+                    "&:hover": {
+                      backgroundColor: "#21b6ae",
+                    },
+                  }}
+                ></Button>*/

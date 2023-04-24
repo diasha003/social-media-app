@@ -4,18 +4,13 @@ import dotenv from "dotenv";
 import helmet from "helmet";
 import mongoose from "mongoose";
 import morgan from "morgan";
-
 import path from "path";
 import { register } from "./controllers/auth.js";
 import fileMiddleware from "./middleware/file.js";
-
 import authRoutes from "./routes/auth.js";
-//const __filename = fileURLToPath(import.meta.url);
-//const __dirname = path.dirname(__filename);
 
 //app.use(bodyParser.json({ extended: true }));
 //app.use(bodyParser.urlencoded({ extended: true }));
-//app.use("/assets", express.static(path.join(__dirname, "assets")));
 
 const app = express();
 app.use(express.json({ extended: true }));

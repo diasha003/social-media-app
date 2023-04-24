@@ -217,7 +217,7 @@ const Register = () => {
                         p="1rem"
                         sx={{
                           "&:hover": { cursor: "pointer" },
-                          fontSize: "11px",
+                          fontSize: "12px",
                         }}
                       >
                         <input {...getInputProps()} />

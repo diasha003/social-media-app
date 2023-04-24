@@ -63,9 +63,13 @@ export const login = async (req, res) => {
     );
 
     delete user._doc.password;
-    console.log(user);
+    //console.log(user);
     res.status(201).json({ ...user, token: `${token}` });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+};
+
+export const info = (req, res) => {
+  //console.log(req.user);
 };

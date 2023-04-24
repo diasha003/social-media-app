@@ -1,16 +1,18 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import AppBar from "./components/AppBar/AppBar";
-import Login from "./pages/Login/Login";
-import Register from "./pages/Register/Register";
+import Login from "./pages/loginPage/Login";
+import Register from "./pages/registerPage/Register";
+import NavBar from "./components/AppBar/AppBar";
 
 function App() {
   return (
     <>
-      <AppBar></AppBar>
+      <NavBar></NavBar>
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login></Login>}></Route>
           <Route path="/signup" element={<Register></Register>}></Route>
+          <Route path="/home" element></Route>
+          <Route path="/profile/:userId" elemen></Route>
         </Routes>
       </BrowserRouter>
     </>
