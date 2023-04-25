@@ -6,14 +6,18 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    desc: {
+    description: {
       type: String,
-      max: 500,
     },
-    img: {
+    picturePath: {
       type: String,
     },
     likes: {
+      type: Map,
+      of: Boolean,
+      default: {},
+    },
+    commets: {
       type: Array,
       default: [],
     },

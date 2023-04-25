@@ -13,6 +13,8 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 import { loginUser } from "../../helpers/authHelper";
+import { useDispatch } from "react-redux";
+import { setLogin } from "../../store/authSlice";
 
 const CssTextField = withStyles({
   root: {
@@ -55,6 +57,7 @@ const loginShema = yup.object().shape({
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const funcLogin = async (values, onSubmitProps) => {
     try {
       const loggedInResponse = await axios.post(
@@ -62,9 +65,13 @@ const Login = () => {
         values
       );
 
+      //console.log(loggedInResponse);
+
       const loggedIn = loggedInResponse.data;
-      console.log(loggedIn);
-      loginUser(loggedIn.token);
+
+      if (loggedIn) {
+        dispatch(setLogin({ user: loggedIn._doc, token: loggedIn.token }));
+      }
 
       navigate("/");
     } catch (error) {
