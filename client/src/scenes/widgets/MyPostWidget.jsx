@@ -11,7 +11,7 @@ import WidgetWrapper from "../../components/WidgetWrapper";
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import UserImage from "../../components/UserImage";
 import FlexBetween from "../../components/FlexBetween";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Dropzone from "react-dropzone";
 import axios from "axios";
@@ -45,8 +45,6 @@ export const MyPostWidget = ({ userId, picturePath }) => {
         formData.append("picturePath", image.name);
       }
 
-      //console.log(formData);
-
       const savedPost = await axios.post(
         "http://localhost:3001/posts",
         formData,
@@ -60,7 +58,8 @@ export const MyPostWidget = ({ userId, picturePath }) => {
       const posts = savedPost.data;
       dispatch(setPosts({ posts }));
       setImage(null);
-      setPost("");
+      setPost(" ");
+
       setIsImage(false);
     } catch (error) {
       console.log(error);
@@ -83,6 +82,7 @@ export const MyPostWidget = ({ userId, picturePath }) => {
             multiline={true}
             rows={3}
             onChange={changeHandler}
+            value={post}
           ></TextField>
         </FlexBetween>
 
@@ -162,7 +162,11 @@ export const MyPostWidget = ({ userId, picturePath }) => {
 
             <Typography>Image</Typography>
           </FlexBetween>
-          <Button variant="outlined" onClick={handlePost}>
+          <Button
+            variant="outlined"
+            onClick={handlePost}
+            disabled={!(post || image)}
+          >
             Post
           </Button>
         </FlexBetween>

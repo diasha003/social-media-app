@@ -5,6 +5,8 @@ import WidgetWrapper from "../../components/WidgetWrapper";
 import UserWidget from "../widgets/UserWidget";
 import { useSelector } from "react-redux";
 import { MyPostWidget } from "../widgets/MyPostWidget";
+import { PostWidget } from "../widgets/PostWidget";
+import { PostsWidget } from "../widgets/PostsWidget";
 
 const HomePage = () => {
   const { _id, picturePath } = useSelector((state) => state.user);
@@ -19,11 +21,12 @@ const HomePage = () => {
       <Box flexBasis="22%">
         <UserWidget userId={_id} picturePath={picturePath}></UserWidget>
       </Box>
-      <Box flexBasis="42%">
+      <Box flexBasis="44%">
         <MyPostWidget userId={_id} picturePath={picturePath}></MyPostWidget>
+        <PostsWidget></PostsWidget>
       </Box>
-      <Box flexBasis="22%" sx={{ background: "#cdf9db" }}>
-        3
+      <Box flexBasis="22%">
+        <WidgetWrapper>3</WidgetWrapper>
       </Box>
     </Box>
   );

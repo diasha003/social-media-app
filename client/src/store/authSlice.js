@@ -20,7 +20,7 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
     },
-    setFriend(state, action) {
+    setFriends(state, action) {
       if (state.user) {
         state.user.friends = action.payload.friends;
       } else {
@@ -28,6 +28,10 @@ const authSlice = createSlice({
       }
     },
     setPosts(state, action) {
+      //console.log(action.payload.posts);
+      //state.posts = [];
+      /*console.log(state.posts);
+      state.posts = [...state.posts, action.payload.posts];*/
       state.posts = action.payload.posts;
     },
     setPost(state, action) {
