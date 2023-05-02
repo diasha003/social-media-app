@@ -15,13 +15,14 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-const UserWidget = ({ userId, picturePath }) => {
+export const UserWidget = ({ userId, picturePath }) => {
   const [user, setUser] = useState(null);
+  const [likes, setLikes] = useState(0);
   const token = useSelector((state) => state.token);
 
   useEffect(() => {
     getUser();
-    //console.log(picturePath);
+    // getUserPosts();
   }, []);
 
   const getUser = async () => {
@@ -30,8 +31,9 @@ const UserWidget = ({ userId, picturePath }) => {
         Authorization: "Bearer " + token,
       },
     });
-    //console.log(result.data);
-    setUser(result.data);
+    console.log(result.data);
+    setUser(result.data.user);
+    setLikes(result.data.likeCount);
   };
 
   if (!user) {
@@ -44,14 +46,14 @@ const UserWidget = ({ userId, picturePath }) => {
     location,
     occupation,
     viewedProfile,
-    impressions,
+
     friends,
   } = user;
 
   return (
     <WidgetWrapper>
       <FlexBetween gap="1rem" pb="1rem">
-        <FlexBetween gap="0.1rem">
+        <FlexBetween gap="0.2rem">
           <UserImage image={picturePath} size="50px"></UserImage>
           <Box>
             <Typography
@@ -96,7 +98,7 @@ const UserWidget = ({ userId, picturePath }) => {
         <FlexBetween gap="1rem">
           <Typography color="#00353F">Impressions of your post</Typography>
           <Typography color="#00353F" fontWeight="600">
-            {impressions}
+            {likes}
           </Typography>
         </FlexBetween>
       </Box>
@@ -141,5 +143,3 @@ const UserWidget = ({ userId, picturePath }) => {
     </WidgetWrapper>
   );
 };
-
-export default UserWidget;

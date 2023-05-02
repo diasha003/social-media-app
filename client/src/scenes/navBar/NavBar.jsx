@@ -22,11 +22,12 @@ import PersonIcon from "@mui/icons-material/Person";
 
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setLogout, setMode } from "../../store/authSlice";
 
 const NavBar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector((state) => state.user);
 
   const theme = useTheme();
@@ -132,7 +133,10 @@ const NavBar = () => {
               <Button
                 variant="text"
                 sx={{ marginRight: "4px" }}
-                onClick={() => dispatch(setLogout())}
+                onClick={() => {
+                  dispatch(setLogout());
+                  navigate("/login");
+                }}
               >
                 Logout
               </Button>

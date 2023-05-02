@@ -18,14 +18,11 @@ export const register = async (req, res) => {
     const newUser = new User({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      //friends: req.body.friends,
       email: req.body.email,
       password: hash,
       picturePath: req.body.picturePath,
       location: req.body.location,
       occupation: req.body.occupation,
-      viewedProfile: Math.floor(Math.random() * 100),
-      impressions: Math.floor(Math.random() * 100),
     });
 
     const savedUser = await newUser.save();

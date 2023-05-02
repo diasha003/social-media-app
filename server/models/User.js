@@ -43,10 +43,9 @@ const UserSchema = new mongoose.Schema(
     },
     viewedProfile: {
       type: Number,
+      default: 0,
     },
-    impressions: {
-      type: Number,
-    },
+
     isAdmin: {
       type: Boolean,
       default: false,

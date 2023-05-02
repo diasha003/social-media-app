@@ -7,12 +7,19 @@ import PersonRemoveOutlinedIcon from "@mui/icons-material/PersonRemoveOutlined";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { setFriends } from "../store/authSlice";
+import { useNavigate } from "react-router-dom";
 
-export const Friend = ({ friendId, createdAt, name, userPicturePath }) => {
+export const Friend = ({
+  friendId,
+  createdAt,
+  name,
+  userPicturePath,
+  occupation,
+}) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { _id } = useSelector((state) => state.user);
   const token = useSelector((state) => {
-    //console.log(state.token);
     return state.token;
   });
   const friends = useSelector((state) => state.user.friends);
@@ -40,20 +47,35 @@ export const Friend = ({ friendId, createdAt, name, userPicturePath }) => {
       <FlexBetween gap="1rem" pb="1rem">
         <UserImage size="50px" image={userPicturePath}></UserImage>
 
-        <Box>
-          <Typography variant="h7">{name}</Typography>
+        <Box
+          onClick={() => {
+            navigate(`/profile/${friendId}`);
+            navigate(0);
+          }}
+        >
+          <Typography variant="h7" sx={{ cursor: "pointer" }}>
+            {name}
+          </Typography>
           <Typography fontSize="0.75rem">
-            <Moment fromNow>{createdAt}</Moment>
+            {occupation ? (
+              <>{occupation}</>
+            ) : (
+              <Moment fromNow>{createdAt}</Moment>
+            )}
           </Typography>
         </Box>
       </FlexBetween>
-      <IconButton sx={{ color: "#000000" }} onClick={() => patchFriend()}>
-        {isFriend ? (
-          <PersonRemoveOutlinedIcon></PersonRemoveOutlinedIcon>
-        ) : (
-          <PersonAddOutlinedIcon></PersonAddOutlinedIcon>
-        )}
-      </IconButton>
+      {friendId !== _id ? (
+        <IconButton sx={{ color: "#000000" }} onClick={() => patchFriend()}>
+          {isFriend ? (
+            <PersonRemoveOutlinedIcon></PersonRemoveOutlinedIcon>
+          ) : (
+            <PersonAddOutlinedIcon></PersonAddOutlinedIcon>
+          )}
+        </IconButton>
+      ) : (
+        <></>
+      )}
     </FlexBetween>
   );
 };

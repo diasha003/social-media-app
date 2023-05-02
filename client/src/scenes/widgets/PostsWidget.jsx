@@ -5,11 +5,9 @@ import axios from "axios";
 import { setPosts } from "../../store/authSlice";
 import { useSearchParams } from "react-router-dom";
 
-export const PostsWidget = () => {
+export const PostsWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
-  const [infoUserPost, setInfoUserPost] = useState([]);
-  //console.log(posts.length);
   const token = useSelector((state) => state.token);
 
   const getAllPosts = async () => {
@@ -25,8 +23,28 @@ export const PostsWidget = () => {
     //console.log(allGetPosts.post);
   };
 
+  const getUserPosts = async () => {
+    const allUserPosts = await axios.get(
+      `http://localhost:3001/posts/${userId}/posts`,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    const allGetPosts = allUserPosts.data;
+
+    dispatch(setPosts({ posts: allGetPosts }));
+
+    //console.log(allGetPosts.post);
+  };
+
   useEffect(() => {
-    getAllPosts();
+    if (isProfile) {
+      getUserPosts();
+    } else {
+      getAllPosts();
+    }
     //console.log(posts);
   }, []);
 

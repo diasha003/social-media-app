@@ -2,11 +2,12 @@ import { Box } from "@mui/material";
 import UserImage from "../../components/UserImage";
 import NavBar from "../navBar/NavBar";
 import WidgetWrapper from "../../components/WidgetWrapper";
-import UserWidget from "../widgets/UserWidget";
+import { UserWidget } from "../widgets/UserWidget";
 import { useSelector } from "react-redux";
 import { MyPostWidget } from "../widgets/MyPostWidget";
 import { PostWidget } from "../widgets/PostWidget";
 import { PostsWidget } from "../widgets/PostsWidget";
+import { FriendListWidget } from "../widgets/FriendListWidget";
 
 const HomePage = () => {
   const { _id, picturePath } = useSelector((state) => state.user);
@@ -26,7 +27,7 @@ const HomePage = () => {
         <PostsWidget></PostsWidget>
       </Box>
       <Box flexBasis="22%">
-        <WidgetWrapper>3</WidgetWrapper>
+        <FriendListWidget userId={_id}></FriendListWidget>
       </Box>
     </Box>
   );
