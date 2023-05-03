@@ -71,3 +71,21 @@ export const likePost = async (req, res) => {
     res.status(404).json({ error: err.message });
   }
 };
+
+export const updatePost = async (req, res) => {
+  try {
+    //console.log(req.body);
+    //console.log(req.params);
+    const { _id } = req.params;
+
+    const updatePost = await Post.findByIdAndUpdate(
+      _id,
+      { picturePath: req.body.image, description: req.body.description },
+      { new: true }
+    );
+
+    return res.status(200).json(updatePost);
+  } catch (err) {
+    return res.status(400).json({ error: err.message });
+  }
+};

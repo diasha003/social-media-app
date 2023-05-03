@@ -23,7 +23,7 @@ export const FriendListWidget = ({ userId }) => {
     );
     const allFriends = responce.data;
     dispatch(setFriends({ friends: allFriends }));
-    console.log(allFriends);
+    //console.log(allFriends);
   };
 
   useEffect(() => {

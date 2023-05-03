@@ -2,19 +2,42 @@ import {
   ChatBubbleOutlineOutlined,
   FavoriteBorderOutlined,
   FavoriteOutlined,
-  ShareOutlined,
-  Troubleshoot,
 } from "@mui/icons-material";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 
-import { Box, CardMedia, Divider, IconButton, Typography } from "@mui/material";
+import {
+  Box,
+  CardMedia,
+  Divider,
+  IconButton,
+  Typography,
+  Modal,
+  Button,
+  TextField,
+} from "@mui/material";
+import Dropzone from "react-dropzone";
+
 import WidgetWrapper from "../../components/WidgetWrapper";
-
 import { Friend } from "../../components/Friend";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import FlexBetween from "../../components/FlexBetween";
 import { useDispatch, useSelector } from "react-redux";
-import { setPost } from "../../store/authSlice";
+import { setModalForm, setPost } from "../../store/authSlice";
+import { EditPost } from "./EditPost";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "#e8efe6",
+
+  boxShadow: 24,
+  p: 2,
+};
 
 export const PostWidget = ({
   _id,
@@ -34,8 +57,25 @@ export const PostWidget = ({
   const [isComments, setIsComments] = useState(false);
   const isLiked = Boolean(likes[loggedInUserId]);
   const countLikes = Object.keys(likes).length;
+  const loggedInUser = useSelector((state) => state.user._id);
 
-  //console.log(comments);
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleEditClick = (description, picturePath, _id) => {
+    setSelectedPost({
+      description: description,
+      picturePath: picturePath,
+      _id: _id,
+    });
+
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setSelectedPost(null);
+    setIsModalOpen(false);
+  };
 
   const patchLike = async () => {
     const response = await axios.patch(
@@ -74,7 +114,7 @@ export const PostWidget = ({
         </Box>
       )}
 
-      <FlexBetween>
+      <FlexBetween sx={{ mt: "3px" }}>
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
             <IconButton sx={{ color: "#000000" }} onClick={patchLike}>
@@ -96,6 +136,21 @@ export const PostWidget = ({
             <Typography>{comments.length}</Typography>
           </FlexBetween>
         </FlexBetween>
+        {userId === loggedInUser ? (
+          <FlexBetween gap="1rem">
+            <IconButton
+              sx={{ color: "#000000" }}
+              onClick={() => handleEditClick(description, picturePath, _id)}
+            >
+              <EditOutlinedIcon></EditOutlinedIcon>
+            </IconButton>
+            <IconButton sx={{ color: "#000000" }}>
+              <DeleteOutlineOutlinedIcon></DeleteOutlineOutlinedIcon>
+            </IconButton>
+          </FlexBetween>
+        ) : (
+          <></>
+        )}
       </FlexBetween>
 
       {isComments && (
@@ -108,21 +163,14 @@ export const PostWidget = ({
           <Divider />
         </Box>
       )}
+
+      {selectedPost && (
+        <EditPost
+          post={selectedPost}
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+        />
+      )}
     </WidgetWrapper>
   );
 };
-
-/*
-
- <Box mt="0.5rem">
-          {comments.map((comment, i) => (
-            <Box key={`${name}-${i}`}>
-              <Divider />
-              <Typography sx={{ m: "0.5rem 0", pl: "1rem" }}>
-                comment
-              </Typography>
-            </Box>
-          ))}
-          <Divider />
-        </Box>
-        */

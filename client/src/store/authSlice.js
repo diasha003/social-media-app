@@ -13,8 +13,8 @@ const authSlice = createSlice({
       state.darkMode = !state.darkMode;
     },
     setLogin(state, action) {
-      state.user = action.payload.user; //state - have access to initialState
-      state.token = action.payload.token; //action - transfer from outside (action.payload)
+      state.user = action.payload.user;
+      state.token = action.payload.token;
     },
     setLogout(state, action) {
       state.user = null;
@@ -28,16 +28,12 @@ const authSlice = createSlice({
       }
     },
     setPosts(state, action) {
-      //console.log(action.payload.posts);
-      //state.posts = [];
       /*console.log(state.posts);
       state.posts = [...state.posts, action.payload.posts];*/
       state.posts = action.payload.posts;
     },
     setPost(state, action) {
-      //console.log(action.payload.post);
       const updatePosts = state.posts.map((post) => {
-        //console.log(post);
         if (post._id === action.payload.post._id) return action.payload.post;
         return post;
       });

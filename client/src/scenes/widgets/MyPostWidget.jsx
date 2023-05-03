@@ -29,6 +29,7 @@ export const MyPostWidget = ({ userId, picturePath }) => {
   const changeHandler = (e) => {
     setPost(e.target.value);
   };
+
   useEffect(() => {
     //console.log(post);
   }, [post]);

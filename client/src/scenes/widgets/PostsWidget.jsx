@@ -3,7 +3,7 @@ import { PostWidget } from "./PostWidget";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { setPosts } from "../../store/authSlice";
-import { useSearchParams } from "react-router-dom";
+import { EditPost } from "./EditPost";
 
 export const PostsWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
@@ -66,18 +66,20 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
             comments,
             createdAt,
           }) => (
-            <PostWidget
-              key={_id}
-              _id={_id}
-              userId={userId}
-              description={description}
-              likes={likes}
-              comments={comments}
-              createdAt={createdAt}
-              name={`${firstName} ${lastName}`}
-              userPicturePath={userPicturePath}
-              picturePath={picturePath}
-            ></PostWidget>
+            <>
+              <PostWidget
+                key={_id}
+                _id={_id}
+                userId={userId}
+                description={description}
+                likes={likes}
+                comments={comments}
+                createdAt={createdAt}
+                name={`${firstName} ${lastName}`}
+                userPicturePath={userPicturePath}
+                picturePath={picturePath}
+              ></PostWidget>
+            </>
           )
         )
       )}

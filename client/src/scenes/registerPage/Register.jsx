@@ -131,10 +131,8 @@ const Register = () => {
             handleBlur,
             handleChange,
             setFieldValue,
-            setErrors,
+
             handleSubmit,
-            resetForm,
-            handleReset,
           }) => (
             <form onSubmit={handleSubmit}>
               <Box
