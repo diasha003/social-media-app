@@ -24,20 +24,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import FlexBetween from "../../components/FlexBetween";
 import { useDispatch, useSelector } from "react-redux";
-import { setModalForm, setPost } from "../../store/authSlice";
+import { setPost } from "../../store/authSlice";
 import { EditPost } from "./EditPost";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "#e8efe6",
-
-  boxShadow: 24,
-  p: 2,
-};
 
 export const PostWidget = ({
   _id,
