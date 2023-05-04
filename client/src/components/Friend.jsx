@@ -15,6 +15,7 @@ export const Friend = ({
   name,
   userPicturePath,
   occupation,
+  editing,
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ export const Friend = ({
   const token = useSelector((state) => {
     return state.token;
   });
-  const friends = useSelector((state) => state.user.friends);
+  const friends = useSelector((state) => state.userFriends);
 
   const isFriend = friends.find((friend) => friend._id === friendId);
 
@@ -60,7 +61,19 @@ export const Friend = ({
             {occupation ? (
               <>{occupation}</>
             ) : (
-              <Moment fromNow>{createdAt}</Moment>
+              <Box display="flex" alignContent="center">
+                <Moment fromNow>{createdAt}</Moment>
+                {editing && (
+                  <Typography
+                    fontSize="12px"
+                    pl="4px"
+                    sx={{ fontStyle: "italic" }}
+                  >
+                    {" "}
+                    (Edited){" "}
+                  </Typography>
+                )}
+              </Box>
             )}
           </Typography>
         </Box>

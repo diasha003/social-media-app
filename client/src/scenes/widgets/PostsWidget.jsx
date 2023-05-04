@@ -65,12 +65,14 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
             likes,
             comments,
             createdAt,
+            updatedAt,
+            editing,
           }) => (
             <>
               <PostWidget
                 key={_id}
                 _id={_id}
-                userId={userId}
+                postUserId={userId}
                 description={description}
                 likes={likes}
                 comments={comments}
@@ -78,6 +80,8 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
                 name={`${firstName} ${lastName}`}
                 userPicturePath={userPicturePath}
                 picturePath={picturePath}
+                updatedAt={updatedAt}
+                editing={editing}
               ></PostWidget>
             </>
           )

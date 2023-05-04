@@ -74,13 +74,17 @@ export const likePost = async (req, res) => {
 
 export const updatePost = async (req, res) => {
   try {
-    //console.log(req.body);
+    console.log(req.body);
     //console.log(req.params);
     const { _id } = req.params;
 
     const updatePost = await Post.findByIdAndUpdate(
       _id,
-      { picturePath: req.body.image, description: req.body.description },
+      {
+        picturePath: req.body.image,
+        description: req.body.description,
+        editing: true,
+      },
       { new: true }
     );
 

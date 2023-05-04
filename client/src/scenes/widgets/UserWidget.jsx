@@ -26,14 +26,18 @@ export const UserWidget = ({ userId, picturePath }) => {
 
   const handleEditClick = () => {
     setSelectedUser({ userId });
-
     setIsModalOpen(true);
   };
 
-  const handleModalClose = (user) => {
+  const handleModalClose = (userNew) => {
     setSelectedUser(null);
     setIsModalOpen(false);
-    if (user) setUser(user);
+    setUser(userNew);
+    /*if (userNew) {
+      setUser(userNew);
+    } else {
+      setUser(user);
+    }*/
   };
 
   useEffect(() => {

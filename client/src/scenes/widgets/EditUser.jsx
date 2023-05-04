@@ -46,14 +46,14 @@ export const EditUser = ({ user, isOpen, onClose }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+          <Box display="flex" justifyContent="flex-end">
+            <IconButton sx={{ color: "#000000" }} onClick={() => onClose(user)}>
+              <ClearOutlinedIcon />
+            </IconButton>
+          </Box>
           <Box>
             <FormUser update={true} user={user} onClose={onClose}></FormUser>
           </Box>
-          <FlexBetween sx={{ mt: "5px" }}>
-            <Button variant="outlined" onClick={onClose}>
-              Close
-            </Button>
-          </FlexBetween>
         </Box>
       </Modal>
     </Box>

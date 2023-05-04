@@ -113,7 +113,7 @@ export const updateUser = async (req, res) => {
       }
     }
 
-    if (oldPassword) {
+    if (newPassword) {
       const validPassword = bcrypt.compareSync(oldPassword, user.password);
 
       if (!validPassword) {
@@ -121,10 +121,12 @@ export const updateUser = async (req, res) => {
       }
     }
 
-    newPassword = user.password;
     if (newPassword) {
-      const salt = bcrypt.genSaltSync(7);
+      const saltRounds = 7;
+      const salt = bcrypt.genSaltSync(saltRounds);
       newPassword = bcrypt.hashSync(newPassword, salt);
+    } else {
+      newPassword = user.password;
     }
 
     const updateUser = await User.findByIdAndUpdate(
@@ -138,6 +140,31 @@ export const updateUser = async (req, res) => {
         email,
         password: newPassword,
       },
+      { new: true }
+    );
+
+    return res.status(200).json(updateUser);
+  } catch (err) {
+    return res.status(400).json({ error: err.message });
+  }
+};
+
+export const updateViewedUser = async (req, res) => {
+  try {
+    console.log(req.params);
+    const { id } = req.params;
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      throw new Error("User does not exist");
+    }
+
+    console.log(user);
+
+    const updateUser = await User.findByIdAndUpdate(
+      id,
+      { viewedProfile: user.viewedProfile + 1 },
       { new: true }
     );
 

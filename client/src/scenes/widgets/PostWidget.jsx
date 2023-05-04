@@ -29,7 +29,7 @@ import { EditPost } from "./EditPost";
 
 export const PostWidget = ({
   _id,
-  userId,
+  postUserId,
   description,
   likes,
   comments,
@@ -37,6 +37,8 @@ export const PostWidget = ({
   picturePath,
   name,
   userPicturePath,
+  updatedAt,
+  editing,
 }) => {
   useEffect(() => {}, []);
   const dispatch = useDispatch();
@@ -98,10 +100,11 @@ export const PostWidget = ({
   return (
     <WidgetWrapper mt="1rem">
       <Friend
-        friendId={userId}
-        createdAt={createdAt}
+        friendId={postUserId}
+        createdAt={updatedAt}
         name={name}
         userPicturePath={userPicturePath}
+        editing={editing}
       ></Friend>
       <Typography sx={{ mb: "10px", wordBreak: "break-word" }}>
         {description}
@@ -111,7 +114,7 @@ export const PostWidget = ({
         <Box>
           <CardMedia
             component="img"
-            height="550"
+            height="600"
             src={`http://localhost:3001/assets/${picturePath}`}
           />
         </Box>
@@ -139,7 +142,7 @@ export const PostWidget = ({
             <Typography>{comments.length}</Typography>
           </FlexBetween>
         </FlexBetween>
-        {userId === loggedInUser ? (
+        {postUserId === loggedInUser ? (
           <FlexBetween gap="1rem">
             <IconButton
               sx={{ color: "#000000" }}

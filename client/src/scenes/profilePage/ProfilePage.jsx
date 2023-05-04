@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
-
 export const ProfilePage = () => {
   const [user, setUser] = useState(null);
 
@@ -15,7 +14,7 @@ export const ProfilePage = () => {
 
   const getUser = async () => {
     const result = await axios.patch(
-      `http://localhost:3001/users/${userId}`,
+      `http://localhost:3001/users/${userId}/view`,
       {},
       {
         headers: {

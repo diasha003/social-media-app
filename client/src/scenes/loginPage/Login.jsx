@@ -81,9 +81,8 @@ const Login = () => {
         } else if (error.response.data.message === "Invalid credentials") {
           onSubmitProps.setErrors({ password: "Invalid credentials" });
         }
-      } else {
-        console.log(error);
       }
+      console.log(error);
     }
   };
 
