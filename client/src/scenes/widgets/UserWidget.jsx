@@ -14,15 +14,30 @@ import {
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { EditUser } from "./EditUser";
 
 export const UserWidget = ({ userId, picturePath }) => {
   const [user, setUser] = useState(null);
   const [likes, setLikes] = useState(0);
   const token = useSelector((state) => state.token);
 
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleEditClick = () => {
+    setSelectedUser({ userId });
+
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = (user) => {
+    setSelectedUser(null);
+    setIsModalOpen(false);
+    if (user) setUser(user);
+  };
+
   useEffect(() => {
     getUser();
-    // getUserPosts();
   }, []);
 
   const getUser = async () => {
@@ -40,15 +55,8 @@ export const UserWidget = ({ userId, picturePath }) => {
     return null;
   }
 
-  const {
-    firstName,
-    lastName,
-    location,
-    occupation,
-    viewedProfile,
-
-    friends,
-  } = user;
+  const { firstName, lastName, location, occupation, viewedProfile, friends } =
+    user;
 
   return (
     <WidgetWrapper>
@@ -68,7 +76,7 @@ export const UserWidget = ({ userId, picturePath }) => {
             <Typography color="#00353F">{friends.length} friends</Typography>
           </Box>
         </FlexBetween>
-        <IconButton sx={{ color: "#000000" }}>
+        <IconButton sx={{ color: "#000000" }} onClick={handleEditClick}>
           <ManageAccountsOutlined />
         </IconButton>
       </FlexBetween>
@@ -140,6 +148,10 @@ export const UserWidget = ({ userId, picturePath }) => {
           </IconButton>
         </FlexBetween>
       </Box>
+
+      {selectedUser && (
+        <EditUser user={user} isOpen={isModalOpen} onClose={handleModalClose} />
+      )}
     </WidgetWrapper>
   );
 };

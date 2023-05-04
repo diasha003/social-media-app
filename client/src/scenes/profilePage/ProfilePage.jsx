@@ -44,7 +44,7 @@ export const ProfilePage = () => {
         <Box flexBasis="26%">
           <UserWidget userId={userId} picturePath={user.picturePath} />
           <Box m="2rem 0" />
-          <FriendListWidget userId={userId} />
+          <FriendListWidget user={user} />
         </Box>
         <Box flexBasis="42%">
           <PostsWidget userId={userId} isProfile={true} />

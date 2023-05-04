@@ -7,14 +7,14 @@ import { useEffect } from "react";
 import { setFriends } from "../../store/authSlice";
 import { Box, Typography } from "@mui/material";
 
-export const FriendListWidget = ({ userId }) => {
+export const FriendListWidget = ({ user }) => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
-  const friends = useSelector((state) => state.user.friends);
+  const friends = useSelector((state) => state.userFriends);
 
   const getFriends = async () => {
     const responce = await axios.get(
-      `http://localhost:3001/users/${userId}/friends`,
+      `http://localhost:3001/users/${user._id}/friends`,
       {
         headers: {
           Authorization: "Bearer " + token,
@@ -22,13 +22,14 @@ export const FriendListWidget = ({ userId }) => {
       }
     );
     const allFriends = responce.data;
+    console.log(allFriends);
     dispatch(setFriends({ friends: allFriends }));
     //console.log(allFriends);
   };
 
   useEffect(() => {
     getFriends();
-  }, []);
+  }, [user]);
 
   return (
     <WidgetWrapper>

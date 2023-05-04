@@ -10,7 +10,7 @@ import { PostsWidget } from "../widgets/PostsWidget";
 import { FriendListWidget } from "../widgets/FriendListWidget";
 
 const HomePage = () => {
-  const { _id, picturePath } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);
 
   return (
     <Box
@@ -20,14 +20,20 @@ const HomePage = () => {
       width="100%"
     >
       <Box flexBasis="22%">
-        <UserWidget userId={_id} picturePath={picturePath}></UserWidget>
+        <UserWidget
+          userId={user._id}
+          picturePath={user.picturePath}
+        ></UserWidget>
       </Box>
       <Box flexBasis="44%">
-        <MyPostWidget userId={_id} picturePath={picturePath}></MyPostWidget>
+        <MyPostWidget
+          userId={user._id}
+          picturePath={user.picturePath}
+        ></MyPostWidget>
         <PostsWidget></PostsWidget>
       </Box>
       <Box flexBasis="22%">
-        <FriendListWidget userId={_id}></FriendListWidget>
+        <FriendListWidget user={user}></FriendListWidget>
       </Box>
     </Box>
   );

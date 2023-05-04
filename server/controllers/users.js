@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import Post from "../models/Post.js";
+import bcrypt from "bcrypt";
 
 export const getUser = async (req, res) => {
   try {
@@ -88,17 +89,55 @@ export const addRemoveFriend = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
+    console.log(req.body);
+
+    let {
+      firstName,
+      lastName,
+      location,
+      occupation,
+      picturePath,
+      email,
+      oldPassword,
+      newPassword,
+    } = req.body;
     const { id } = req.params;
 
     const user = await User.findById(id);
 
-    if (!user) {
-      throw new Error("User does not exist");
+    if (email !== user.email) {
+      const existingUser = await User.findOne({ email: email });
+
+      if (existingUser) {
+        return res.status(400).json({ message: "Email must be unique" });
+      }
+    }
+
+    if (oldPassword) {
+      const validPassword = bcrypt.compareSync(oldPassword, user.password);
+
+      if (!validPassword) {
+        return res.status(400).json({ message: "Passwords must match" });
+      }
+    }
+
+    newPassword = user.password;
+    if (newPassword) {
+      const salt = bcrypt.genSaltSync(7);
+      newPassword = bcrypt.hashSync(newPassword, salt);
     }
 
     const updateUser = await User.findByIdAndUpdate(
       id,
-      { viewedProfile: user.viewedProfile + 1 },
+      {
+        firstName,
+        lastName,
+        location,
+        occupation,
+        picturePath: picturePath,
+        email,
+        password: newPassword,
+      },
       { new: true }
     );
 

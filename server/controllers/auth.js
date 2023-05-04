@@ -4,7 +4,7 @@ import User from "../models/User.js";
 
 export const register = async (req, res) => {
   try {
-    //console.log(req.body);
+    console.log(req.body);
     const saltRounds = 7;
     const salt = bcrypt.genSaltSync(saltRounds);
     const hash = bcrypt.hashSync(req.body.password, salt);

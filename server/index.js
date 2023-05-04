@@ -12,6 +12,7 @@ import authRoutes from "./routes/auth.js";
 import usersRoutes from "./routes/users.js";
 import postRoutes from "./routes/post.js";
 import { verifyToken } from "./middleware/auth.js";
+import { updateUser } from "./controllers/users.js";
 
 const app = express();
 app.use(express.json({ extended: true }));
@@ -29,6 +30,12 @@ app.use(morgan("common"));
 
 app.post("/auth/register", fileMiddleware.single("picture"), register);
 app.post("/posts", verifyToken, fileMiddleware.single("picture"), createPost);
+app.patch(
+  "/users/:id",
+  verifyToken,
+  fileMiddleware.single("picture"),
+  updateUser
+);
 
 app.use("/auth", authRoutes);
 app.use("/users", usersRoutes);
