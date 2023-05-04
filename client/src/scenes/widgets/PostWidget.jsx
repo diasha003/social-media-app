@@ -24,7 +24,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import FlexBetween from "../../components/FlexBetween";
 import { useDispatch, useSelector } from "react-redux";
-import { setPost } from "../../store/authSlice";
+import { setPost, setPosts } from "../../store/authSlice";
 import { EditPost } from "./EditPost";
 
 export const PostWidget = ({
@@ -80,6 +80,21 @@ export const PostWidget = ({
     dispatch(setPost({ post: updatedPost }));
   };
 
+  const deletePost = async () => {
+    const response = await axios.delete(
+      `http://localhost:3001/posts/${_id}`,
+
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    const newPosts = response.data;
+    //console.log(newPosts);
+    dispatch(setPosts({ posts: newPosts }));
+  };
+
   return (
     <WidgetWrapper mt="1rem">
       <Friend
@@ -132,7 +147,7 @@ export const PostWidget = ({
             >
               <EditOutlinedIcon></EditOutlinedIcon>
             </IconButton>
-            <IconButton sx={{ color: "#000000" }}>
+            <IconButton sx={{ color: "#000000" }} onClick={deletePost}>
               <DeleteOutlineOutlinedIcon></DeleteOutlineOutlinedIcon>
             </IconButton>
           </FlexBetween>

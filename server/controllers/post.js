@@ -89,3 +89,18 @@ export const updatePost = async (req, res) => {
     return res.status(400).json({ error: err.message });
   }
 };
+
+export const deletePost = async (req, res) => {
+  try {
+    //console.log(req.params);
+    const { _id } = req.params;
+
+    const deletePostResult = await Post.deleteOne({ _id: _id });
+
+    const allPosts = await Post.find().sort({ createdAt: -1 });
+
+    return res.status(200).json(allPosts);
+  } catch (err) {
+    return res.status(400).json({ error: err.message });
+  }
+};

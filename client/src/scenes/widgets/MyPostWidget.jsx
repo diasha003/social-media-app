@@ -38,7 +38,7 @@ export const MyPostWidget = ({ userId, picturePath }) => {
     try {
       const formData = new FormData();
       formData.append("userId", _id);
-      console.log(post);
+      //console.log(post);
       formData.append("description", post);
 
       if (image) {
