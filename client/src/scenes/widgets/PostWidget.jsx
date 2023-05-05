@@ -26,6 +26,7 @@ import FlexBetween from "../../components/FlexBetween";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost, setPosts } from "../../store/authSlice";
 import { EditPost } from "./EditPost";
+import { CommentsWidget } from "./CommentsWidget";
 
 export const PostWidget = ({
   _id,
@@ -139,7 +140,7 @@ export const PostWidget = ({
             >
               <ChatBubbleOutlineOutlined></ChatBubbleOutlineOutlined>
             </IconButton>
-            <Typography>{comments.length}</Typography>
+            <Typography>{}</Typography>
           </FlexBetween>
         </FlexBetween>
         {postUserId === loggedInUser ? (
@@ -161,12 +162,7 @@ export const PostWidget = ({
 
       {isComments && (
         <Box mt="0.5rem">
-          <Box>
-            <Divider />
-            <Typography sx={{ m: "0.5rem 0", pl: "1rem" }}>comment</Typography>
-          </Box>
-
-          <Divider />
+          <CommentsWidget postId={_id}></CommentsWidget>
         </Box>
       )}
 

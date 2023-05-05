@@ -15,31 +15,7 @@ import axios from "axios";
 import { loginUser } from "../../helpers/authHelper";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../../store/authSlice";
-
-const CssTextField = withStyles({
-  root: {
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "#81cfc8",
-      },
-      "&:hover fieldset": {
-        borderColor: "#5b918c",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#00968f",
-      },
-    },
-    "& .MuiInputBase-input": {
-      padding: "10px",
-    },
-    "& .MuiFormLabel-root": {
-      top: "-5px",
-    },
-    ".Mui-focused, .MuiInputLabel-shrink": {
-      top: "0px",
-    },
-  },
-})(TextField);
+import { CssTextField } from "../../theme";
 
 const initialValuesLogin = {
   email: "",

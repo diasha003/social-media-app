@@ -28,9 +28,9 @@ const PostSchema = new mongoose.Schema(
       type: Map,
       of: String,
     },
-    comments: {
-      type: Array,
-      default: [],
+    commentCount: {
+      type: Number,
+      default: 0,
     },
     editing: {
       type: Boolean,
@@ -42,4 +42,4 @@ const PostSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("Post", PostSchema);
+export default mongoose.model("post", PostSchema);

@@ -57,25 +57,26 @@ export const Friend = ({
           <Typography variant="h7" sx={{ cursor: "pointer" }}>
             {name}
           </Typography>
-          <Typography fontSize="0.75rem">
-            {occupation ? (
-              <>{occupation}</>
-            ) : (
-              <Box display="flex" alignContent="center">
+
+          {occupation ? (
+            <Typography fontSize="12px">{occupation}</Typography>
+          ) : (
+            <Box display="flex" alignContent="center">
+              <Typography fontSize="0.75rem">
                 <Moment fromNow>{createdAt}</Moment>
-                {editing && (
-                  <Typography
-                    fontSize="12px"
-                    pl="4px"
-                    sx={{ fontStyle: "italic" }}
-                  >
-                    {" "}
-                    (Edited){" "}
-                  </Typography>
-                )}
-              </Box>
-            )}
-          </Typography>
+              </Typography>
+
+              {editing && (
+                <Typography
+                  fontSize="12px"
+                  pl="4px"
+                  sx={{ fontStyle: "italic" }}
+                >
+                  (Edited)
+                </Typography>
+              )}
+            </Box>
+          )}
         </Box>
       </FlexBetween>
       {friendId !== _id ? (
