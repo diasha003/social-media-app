@@ -21,9 +21,8 @@ export const CommentsWidget = ({ postId }) => {
       }
     );
     const getComments = response.data.comments;
+    console.log(response.data);
     setComments(getComments);
-
-    console.log(response.data.comments);
   };
 
   const findComment = (id) => {
@@ -68,6 +67,7 @@ export const CommentsWidget = ({ postId }) => {
     if (comment.parent) {
       let parentComment = findComment(comment.parent);
       parentComment.children = [...parentComment.children, comment];
+      //console.log(parentComment);
       setRerender(!rerender);
     } else {
       setComments([comment, ...comments]);

@@ -27,18 +27,30 @@ export const CommentWidget = (props) => {
   const { postId, removeComment, addComment } = props;
   const [minimised, setMinimised] = useState(depth % 4 === 3);
   const token = useSelector((state) => state.token);
-  //console.log("! ", comment);
 
   const handleDelete = async () => {
+    let childComments = comment.children[0];
+    let idsToDelete = [comment._id];
+
+    while (childComments) {
+      idsToDelete = [...idsToDelete, childComments._id];
+      childComments = childComments.children[0];
+    }
+
+    //console.log(idDeleteComments);
     const response = await axios.delete(
       `http://localhost:3001/comments/${comment._id}`,
+
       {
+        data: {
+          idsToDelete,
+        },
         headers: {
           Authorization: "Bearer " + token,
         },
       }
     );
-    //console.log("responsse ", response.data);
+    // console.log("response ", response.data);
     removeComment(response.data);
   };
 

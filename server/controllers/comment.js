@@ -70,8 +70,6 @@ export const getPostComments = async (req, res) => {
 export const deleteComment = async (req, res) => {
   try {
     const commentId = req.params.id;
-
-    //console.log(commentId);
     const comment = await Comment.findById(commentId);
 
     if (!comment) {
@@ -79,11 +77,15 @@ export const deleteComment = async (req, res) => {
     }
 
     const post = await Post.findById(comment.post);
-    await Comment.deleteOne({ _id: commentId });
+    await Comment.deleteMany({
+      _id: {
+        $in: req.body.idsToDelete,
+      },
+    });
     post.commentCount = (await Comment.find({ post: post._id })).length;
     await post.save();
 
-    //console.log(comment);
+    console.log(comment);
 
     res.status(200).json(comment);
   } catch (err) {
