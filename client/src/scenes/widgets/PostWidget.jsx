@@ -102,7 +102,7 @@ export const PostWidget = ({
     <WidgetWrapper mt="1rem">
       <Friend
         friendId={postUserId}
-        createdAt={updatedAt}
+        createdAt={createdAt}
         name={name}
         userPicturePath={userPicturePath}
         editing={editing}

@@ -85,7 +85,7 @@ export const deleteComment = async (req, res) => {
     post.commentCount = (await Comment.find({ post: post._id })).length;
     await post.save();
 
-    console.log(comment);
+    //console.log(comment);
 
     res.status(200).json(comment);
   } catch (err) {

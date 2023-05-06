@@ -126,7 +126,10 @@ export const CommentWidget = (props) => {
                 </IconButton>
               </FlexBetween>
             </FlexBetween>
-            <Box sx={{ mt: 1 }} overflow="hidden">
+            <Box
+              overflow="hidden"
+              sx={{ wordBreak: "break-word", boxSizing: "border-box", mt: 1 }}
+            >
               {!editing ? (
                 <Typography>{comment.content} </Typography>
               ) : (

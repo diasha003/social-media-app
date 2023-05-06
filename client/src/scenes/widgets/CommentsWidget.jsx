@@ -11,6 +11,11 @@ export const CommentsWidget = ({ postId }) => {
   const token = useSelector((state) => state.token);
   const [rerender, setRerender] = useState(false);
 
+  useEffect(() => {
+    getAllComments();
+    console.log(rerender);
+  }, [rerender]);
+
   const getAllComments = async () => {
     const response = await axios.get(
       `http://localhost:3001/comments/post/${postId}`,
@@ -21,7 +26,7 @@ export const CommentsWidget = ({ postId }) => {
       }
     );
     const getComments = response.data.comments;
-    console.log(response.data);
+    //console.log(response.data);
     setComments(getComments);
   };
 
@@ -49,13 +54,15 @@ export const CommentsWidget = ({ postId }) => {
   };
 
   const removeComment = (removedComment) => {
-    console.log(removedComment);
+    //console.log(removedComment);
     if (removedComment.parent) {
       const parentComment = findComment(removedComment.parent);
       parentComment.children = parentComment.children.filter(
         (comment) => comment._id !== removedComment._id
       );
-      setRerender(!rerender);
+      setRerender(() => {
+        return !rerender;
+      });
     } else {
       setComments(
         comments.filter((comment) => comment._id !== removedComment._id)
@@ -68,15 +75,13 @@ export const CommentsWidget = ({ postId }) => {
       let parentComment = findComment(comment.parent);
       parentComment.children = [...parentComment.children, comment];
       //console.log(parentComment);
-      setRerender(!rerender);
+      setRerender(() => {
+        return !rerender;
+      });
     } else {
       setComments([comment, ...comments]);
     }
   };
-
-  useEffect(() => {
-    getAllComments();
-  }, [rerender]);
 
   return (
     <Stack spacing={2}>
