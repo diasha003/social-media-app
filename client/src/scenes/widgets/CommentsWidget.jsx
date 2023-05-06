@@ -22,7 +22,43 @@ export const CommentsWidget = ({ postId }) => {
     const getComments = response.data.comments;
     setComments(getComments);
 
-    console.log(response.data.comments);
+    //console.log(response.data.comments);
+  };
+
+  const findComment = (id) => {
+    let commentToFind;
+
+    const recurse = (comment, id) => {
+      //console.log(comment);
+      if (comment._id === id) {
+        commentToFind = comment;
+      } else {
+        for (let i = 0; i < comment.children.length; i++) {
+          const commentToSearch = comment.children[i];
+          recurse(commentToSearch, id);
+        }
+      }
+    };
+
+    for (let i = 0; i < comments.length; i++) {
+      const comment = comments[i];
+      recurse(comment, id);
+    }
+
+    return commentToFind;
+  };
+
+  const removeComment = (removedComment) => {
+    if (removedComment.parent) {
+      const parentComment = findComment(removeComment.parent);
+      parentComment.children = parentComment.children.filter(
+        (comment) => comment._id !== removeComment._id
+      );
+    } else {
+      setComments(
+        comments.filter((comment) => comment._id !== removedComment._id)
+      );
+    }
   };
 
   useEffect(() => {
@@ -39,6 +75,7 @@ export const CommentsWidget = ({ postId }) => {
               <CommentWidget
                 comment={comment}
                 key={comment._id}
+                removeComment={removeComment}
                 depth={0}
               ></CommentWidget>
             </>

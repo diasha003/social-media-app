@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import FlexBetween from "../../components/FlexBetween";
 
 export const CommentEditor = ({ postId }) => {
   const [formData, setFormData] = useState({
@@ -43,18 +44,8 @@ export const CommentEditor = ({ postId }) => {
   };
 
   return (
-    <Card>
-      <Stack spacing={1}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Typography variant="h6" sx={{ px: "3px" }}>
-            !@#
-          </Typography>
-        </Stack>
-
+    <Card sx={{}}>
+      <Box mt="0.5rem">
         <Box component="form" onSubmit={handleSubmit}>
           <TextField
             multiline
@@ -83,7 +74,7 @@ export const CommentEditor = ({ postId }) => {
             Submit
           </Button>
         </Box>
-      </Stack>
+      </Box>
     </Card>
   );
 };
