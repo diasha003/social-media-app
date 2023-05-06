@@ -4,13 +4,8 @@ import Comment from "../models/Comment.js";
 
 export const createComment = async (req, res) => {
   try {
-    //const postId = req.params.id;
-    //const { content, parentId, userId } = req.body;
-
-    const parentId = "64556707faffb61c9b436fd6";
-    const postId = "6454b2e80290fe0200846bb7";
-    const userId = "645402a4e76a0c8ac2942a45";
-    const content = "wedfgh dffffffffffffffffffffffff dftghbffg gfhdg";
+    const postId = req.params.id;
+    const { content, parentId, userId } = req.body;
 
     const post = await Post.findById(postId);
 
@@ -54,16 +49,18 @@ export const getPostComments = async (req, res) => {
     }
 
     for (let i = 0; i < comments.length; i++) {
-      let comment = comments[i];
+      const comment = comments[i];
       if (comment.parent) {
         let commentParent = commentParents[comment.parent];
+        //console.log(commentParent);
         commentParent.children = [...commentParent.children, comment];
-        //console.log(rootComments);
+        //console.log(commentParent);
       } else {
         rootComments = [...rootComments, comment];
       }
     }
 
+    //console.log(rootComments);
     res.status(200).json({ comments: rootComments });
   } catch (err) {
     res.status(404).json({ error: err.message });
@@ -74,6 +71,7 @@ export const deleteComment = async (req, res) => {
   try {
     const commentId = req.params.id;
 
+    //console.log(commentId);
     const comment = await Comment.findById(commentId);
 
     if (!comment) {

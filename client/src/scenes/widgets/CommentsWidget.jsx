@@ -9,6 +9,7 @@ import axios from "axios";
 export const CommentsWidget = ({ postId }) => {
   const [comments, setComments] = useState([]);
   const token = useSelector((state) => state.token);
+  const [rerender, setRerender] = useState(false);
 
   const getAllComments = async () => {
     const response = await axios.get(
@@ -22,7 +23,7 @@ export const CommentsWidget = ({ postId }) => {
     const getComments = response.data.comments;
     setComments(getComments);
 
-    //console.log(response.data.comments);
+    console.log(response.data.comments);
   };
 
   const findComment = (id) => {
@@ -49,11 +50,13 @@ export const CommentsWidget = ({ postId }) => {
   };
 
   const removeComment = (removedComment) => {
+    console.log(removedComment);
     if (removedComment.parent) {
-      const parentComment = findComment(removeComment.parent);
+      const parentComment = findComment(removedComment.parent);
       parentComment.children = parentComment.children.filter(
-        (comment) => comment._id !== removeComment._id
+        (comment) => comment._id !== removedComment._id
       );
+      setRerender(!rerender);
     } else {
       setComments(
         comments.filter((comment) => comment._id !== removedComment._id)
@@ -61,13 +64,23 @@ export const CommentsWidget = ({ postId }) => {
     }
   };
 
+  const addComment = (comment) => {
+    if (comment.parent) {
+      let parentComment = findComment(comment.parent);
+      parentComment.children = [...parentComment.children, comment];
+      setRerender(!rerender);
+    } else {
+      setComments([comment, ...comments]);
+    }
+  };
+
   useEffect(() => {
     getAllComments();
-  }, []);
+  }, [rerender]);
 
   return (
     <Stack spacing={2}>
-      <CommentEditor></CommentEditor>
+      <CommentEditor postId={postId} addComment={addComment}></CommentEditor>
       {comments.length > 0 ? (
         <Box pb={4}>
           {comments.map((comment, i) => (
@@ -76,6 +89,8 @@ export const CommentsWidget = ({ postId }) => {
                 comment={comment}
                 key={comment._id}
                 removeComment={removeComment}
+                addComment={addComment}
+                postId={postId}
                 depth={0}
               ></CommentWidget>
             </>

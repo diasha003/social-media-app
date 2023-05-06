@@ -24,7 +24,7 @@ export const CommentWidget = (props) => {
   const [replying, setReplying] = useState(false);
   const [editing, setEditing] = useState(false);
   const { depth } = props;
-  const { removeComment } = props;
+  const { postId, removeComment, addComment } = props;
   const [minimised, setMinimised] = useState(depth % 4 === 3);
   const token = useSelector((state) => state.token);
   //console.log("! ", comment);
@@ -126,6 +126,8 @@ export const CommentWidget = (props) => {
                   <CommentEditor
                     setReplying={setReplying}
                     comment={comment}
+                    addComment={addComment}
+                    postId={postId}
                   ></CommentEditor>
                 </Box>
               )}
@@ -142,11 +144,16 @@ export const CommentWidget = (props) => {
                 {comment.children && (
                   <Box sx={{ pt: theme.spacing(2) }}>
                     {comment.children.map((reply, i) => (
-                      <CommentWidget
-                        key={reply._id}
-                        comment={reply}
-                        depth={depth + 1}
-                      />
+                      <>
+                        <CommentWidget
+                          key={reply._id}
+                          postId={postId}
+                          comment={reply}
+                          depth={depth + 1}
+                          addComment={addComment}
+                          removeComment={removeComment}
+                        />
+                      </>
                     ))}
                   </Box>
                 )}

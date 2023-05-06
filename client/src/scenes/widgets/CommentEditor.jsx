@@ -5,18 +5,18 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import FlexBetween from "../../components/FlexBetween";
 
-export const CommentEditor = ({ postId }) => {
+export const CommentEditor = ({ postId, comment, addComment, setReplying }) => {
   const [formData, setFormData] = useState({
     content: "",
   });
   const token = useSelector((state) => state.token);
+  const userId = useSelector((state) => state.user._id);
 
   const params = useParams();
   //console.log(params); params.userId
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    //console.log(formData);
   };
 
   const handleSubmit = async (e) => {
@@ -25,7 +25,11 @@ export const CommentEditor = ({ postId }) => {
 
       const body = {
         ...formData,
+        userId: userId,
+        parentId: comment && comment._id,
       };
+
+      console.log(body);
 
       const savedPost = await axios.post(
         `http://localhost:3001/comments/${postId}`,
@@ -37,7 +41,10 @@ export const CommentEditor = ({ postId }) => {
         }
       );
 
-      const posts = savedPost.data;
+      formData.content = "";
+      //console.log(savedPost.data);
+      setReplying && setReplying(false);
+      addComment(savedPost.data);
     } catch (error) {
       console.log(error);
     }
