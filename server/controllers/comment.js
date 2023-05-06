@@ -7,10 +7,10 @@ export const createComment = async (req, res) => {
     //const postId = req.params.id;
     //const { content, parentId, userId } = req.body;
 
-    const parentId = "64552823dc02c5861a70f339";
+    const parentId = "64556707faffb61c9b436fd6";
     const postId = "6454b2e80290fe0200846bb7";
     const userId = "645402a4e76a0c8ac2942a45";
-    const content = "wedfgh";
+    const content = "wedfgh dffffffffffffffffffffffff dftghbffg gfhdg";
 
     const post = await Post.findById(postId);
 
@@ -20,7 +20,7 @@ export const createComment = async (req, res) => {
 
     const comment = await Comment.create({
       content,
-      //parent: parentId,
+      parent: parentId,
       post: postId,
       commenter: userId,
     });
@@ -65,6 +65,29 @@ export const getPostComments = async (req, res) => {
     }
 
     res.status(200).json({ comments: rootComments });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+};
+
+export const deleteComment = async (req, res) => {
+  try {
+    const commentId = req.params.id;
+
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
+      throw new Error("Comment not found");
+    }
+
+    const post = await Post.findById(comment.post);
+    await Comment.deleteOne({ _id: commentId });
+    post.commentCount = (await Comment.find({ post: post._id })).length;
+    await post.save();
+
+    //console.log(comment);
+
+    res.status(200).json(comment);
   } catch (err) {
     res.status(404).json({ error: err.message });
   }
