@@ -26,6 +26,7 @@ export const CommentWidget = (props) => {
   const { depth } = props;
   const { postId, removeComment, addComment, editComment } = props;
   const [minimised, setMinimised] = useState(depth % 4 === 3);
+  const userId = useSelector((state) => state.user._id);
   const token = useSelector((state) => state.token);
 
   const handleDelete = async () => {
@@ -141,22 +142,29 @@ export const CommentWidget = (props) => {
                     <CancelOutlinedIcon></CancelOutlinedIcon>
                   )}
                 </IconButton>
-                <IconButton
-                  sx={{ color: "#000000" }}
-                  onClick={() => {
-                    setEditing(!editing);
-                    setReplying(false);
-                  }}
-                >
-                  {!editing ? (
-                    <BorderColorOutlinedIcon></BorderColorOutlinedIcon>
-                  ) : (
-                    <CancelOutlinedIcon></CancelOutlinedIcon>
-                  )}
-                </IconButton>
-                <IconButton sx={{ color: "#000000" }} onClick={handleDelete}>
-                  <DeleteOutlinedIcon></DeleteOutlinedIcon>
-                </IconButton>
+                {userId === comment.commenter._id && (
+                  <>
+                    <IconButton
+                      sx={{ color: "#000000" }}
+                      onClick={() => {
+                        setEditing(!editing);
+                        setReplying(false);
+                      }}
+                    >
+                      {!editing ? (
+                        <BorderColorOutlinedIcon></BorderColorOutlinedIcon>
+                      ) : (
+                        <CancelOutlinedIcon></CancelOutlinedIcon>
+                      )}
+                    </IconButton>
+                    <IconButton
+                      sx={{ color: "#000000" }}
+                      onClick={handleDelete}
+                    >
+                      <DeleteOutlinedIcon></DeleteOutlinedIcon>
+                    </IconButton>
+                  </>
+                )}
               </FlexBetween>
             </FlexBetween>
             <Box

@@ -13,7 +13,7 @@ export const CommentsWidget = ({ postId }) => {
 
   useEffect(() => {
     getAllComments();
-    console.log(rerender);
+    //console.log(rerender);
   }, [rerender]);
 
   const getAllComments = async () => {
