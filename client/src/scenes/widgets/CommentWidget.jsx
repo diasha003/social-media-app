@@ -24,7 +24,7 @@ export const CommentWidget = (props) => {
   const [replying, setReplying] = useState(false);
   const [editing, setEditing] = useState(false);
   const { depth } = props;
-  const { postId, removeComment, addComment } = props;
+  const { postId, removeComment, addComment, editComment } = props;
   const [minimised, setMinimised] = useState(depth % 4 === 3);
   const token = useSelector((state) => state.token);
 
@@ -52,6 +52,39 @@ export const CommentWidget = (props) => {
     );
     // console.log("response ", response.data);
     removeComment(response.data);
+  };
+
+  const handleSubmit = async (e, data) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const originalContent = formData.get("content");
+
+    //console.log(originalContent);
+
+    const updateComment = await axios.patch(
+      `http://localhost:3001/comments/${comment._id}`,
+      { content: originalContent },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+
+    //console.log(updateComment);
+
+    const newCommentData = {
+      ...comment,
+      content: originalContent,
+      edited: true,
+    };
+
+    setComment(newCommentData);
+
+    editComment(newCommentData);
+
+    setEditing(false);
   };
 
   let style = {
@@ -133,7 +166,11 @@ export const CommentWidget = (props) => {
               {!editing ? (
                 <Typography>{comment.content} </Typography>
               ) : (
-                <ContentUpdateEditor originalContent={comment.content} />
+                <ContentUpdateEditor
+                  originalContent={comment.content}
+                  handleSubmit={handleSubmit}
+                  depth={depth}
+                />
               )}
 
               {replying && (
@@ -143,6 +180,7 @@ export const CommentWidget = (props) => {
                     comment={comment}
                     addComment={addComment}
                     postId={postId}
+                    depth={depth}
                   ></CommentEditor>
                 </Box>
               )}
@@ -167,6 +205,7 @@ export const CommentWidget = (props) => {
                           depth={depth + 1}
                           addComment={addComment}
                           removeComment={removeComment}
+                          editComment={editComment}
                         />
                       </>
                     ))}

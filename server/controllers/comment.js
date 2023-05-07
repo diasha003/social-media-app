@@ -92,3 +92,20 @@ export const deleteComment = async (req, res) => {
     res.status(404).json({ error: err.message });
   }
 };
+
+export const updateComment = async (req, res) => {
+  try {
+    //console.log(req.params);
+    //console.log(req.body);
+    const commentId = req.params.id;
+    const { content } = req.body;
+
+    const comment = await Comment.findById(commentId);
+    comment.content = content;
+    comment.edited = true;
+    await comment.save();
+    res.status(200).json(comment);
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+};

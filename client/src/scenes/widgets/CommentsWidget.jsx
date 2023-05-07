@@ -83,6 +83,26 @@ export const CommentsWidget = ({ postId }) => {
     }
   };
 
+  const editComment = (newComment) => {
+    if (newComment.parent) {
+      let parentComment = findComment(newComment.parent);
+      for (let i = 0; i < parentComment.children; i++) {
+        if (parentComment.children[i]._id === newComment._id) {
+          parentComment.children[i] = newComment;
+        }
+      }
+    } else {
+      for (let i = 0; i < comments.length; i++) {
+        if (comments[i]._id === newComment._id) {
+          comments[i] = newComment;
+        }
+      }
+    }
+    setRerender(() => {
+      return !rerender;
+    });
+  };
+
   return (
     <Stack spacing={2}>
       <CommentEditor postId={postId} addComment={addComment}></CommentEditor>
@@ -95,6 +115,7 @@ export const CommentsWidget = ({ postId }) => {
                 key={comment._id}
                 removeComment={removeComment}
                 addComment={addComment}
+                editComment={editComment}
                 postId={postId}
                 depth={0}
               ></CommentWidget>

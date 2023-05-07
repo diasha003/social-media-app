@@ -1,6 +1,8 @@
 import { Box, Button, Stack, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { CssTextField } from "../../theme";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 export const ContentUpdateEditor = (props) => {
   const [content, setContent] = useState(props.originalContent);
@@ -9,24 +11,8 @@ export const ContentUpdateEditor = (props) => {
     setContent(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const content = e.target.content.value;
-    let error = null;
-
-    if (props.validate) {
-      error = props.validate(content);
-    }
-
-    if (error && error.length !== 0) {
-    } else {
-      props.handleSubmit(e);
-    }
-  };
-
   return (
-    <Box component="form" onSubmit={handleSubmit}>
+    <Box component="form" onSubmit={props.handleSubmit}>
       <Box>
         <TextField
           value={content}
@@ -34,7 +20,9 @@ export const ContentUpdateEditor = (props) => {
           required
           margin="normal"
           name="content"
-          sx={{ backgroundColor: "white" }}
+          sx={{
+            backgroundColor: props.depth % 2 === 0 ? "#dcddde" : "#ffffff",
+          }}
           onChange={handleChange}
           multiline
         />
@@ -42,7 +30,7 @@ export const ContentUpdateEditor = (props) => {
           variant="outlined"
           type="submit"
           sx={{
-            backgroundColor: "white",
+            backgroundColor: props.depth % 2 === 0 ? "#dcddde" : "#ffffff",
             m: "3px auto",
             display: "block",
           }}

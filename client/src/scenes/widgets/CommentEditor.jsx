@@ -5,7 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import FlexBetween from "../../components/FlexBetween";
 
-export const CommentEditor = ({ postId, comment, addComment, setReplying }) => {
+export const CommentEditor = ({
+  postId,
+  comment,
+  addComment,
+  setReplying,
+  depth,
+}) => {
   const [formData, setFormData] = useState({
     content: "",
   });
@@ -19,6 +25,14 @@ export const CommentEditor = ({ postId, comment, addComment, setReplying }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  let style = {
+    backgroundColor: "#dcddde",
+  };
+
+  if (depth % 2 === 1) {
+    style.backgroundColor = "#ffffff";
+  }
+
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -29,7 +43,7 @@ export const CommentEditor = ({ postId, comment, addComment, setReplying }) => {
         parentId: comment && comment._id,
       };
 
-      console.log(body);
+      //console.log(body);
 
       const savedPost = await axios.post(
         `http://localhost:3001/comments/${postId}`,
@@ -51,7 +65,12 @@ export const CommentEditor = ({ postId, comment, addComment, setReplying }) => {
   };
 
   return (
-    <Card sx={{}}>
+    <Card
+      sx={{
+        backgroundColor: depth % 2 === 0 ? "#dcddde" : "#ffffff",
+        boxShadow: "none",
+      }}
+    >
       <Box mt="0.5rem">
         <Box component="form" onSubmit={handleSubmit}>
           <TextField
@@ -64,7 +83,7 @@ export const CommentEditor = ({ postId, comment, addComment, setReplying }) => {
             onChange={handleChange}
             value={formData.content}
             sx={{
-              backgroundColor: "white",
+              backgroundColor: depth % 2 === 0 ? "#dcddde" : "#ffffff",
               px: "3px",
             }}
           />
@@ -73,7 +92,7 @@ export const CommentEditor = ({ postId, comment, addComment, setReplying }) => {
             variant="outlined"
             type="submit"
             sx={{
-              backgroundColor: "white",
+              backgroundColor: depth % 2 === 0 ? "#dcddde" : "#ffffff",
               m: "3px auto",
               display: "block",
             }}
