@@ -4,6 +4,7 @@ import WidgetWrapper from "../../components/WidgetWrapper";
 import UserImage from "../../components/UserImage";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import MapsUgcOutlinedIcon from "@mui/icons-material/MapsUgcOutlined";
 import {
   ManageAccountsOutlined,
   EditOutlined,
@@ -15,11 +16,14 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { EditUser } from "./EditUser";
+import { useNavigate } from "react-router-dom";
 
 export const UserWidget = ({ userId, picturePath }) => {
   const [user, setUser] = useState(null);
   const [likes, setLikes] = useState(0);
   const token = useSelector((state) => state.token);
+  const userIdLogin = useSelector((state) => state.user._id);
+  const navigate = useNavigate();
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,6 +42,10 @@ export const UserWidget = ({ userId, picturePath }) => {
     } else {
       setUser(user);
     }*/
+  };
+
+  const handleMessage = () => {
+    navigate("/chat", { state: { user: user } });
   };
 
   useEffect(() => {
@@ -80,9 +88,15 @@ export const UserWidget = ({ userId, picturePath }) => {
             <Typography color="#00353F">{friends.length} friends</Typography>
           </Box>
         </FlexBetween>
-        <IconButton sx={{ color: "#000000" }} onClick={handleEditClick}>
-          <ManageAccountsOutlined />
-        </IconButton>
+        {userId === userIdLogin ? (
+          <IconButton sx={{ color: "#000000" }} onClick={handleEditClick}>
+            <ManageAccountsOutlined />
+          </IconButton>
+        ) : (
+          <IconButton sx={{ color: "#000000" }} onClick={handleMessage}>
+            <MapsUgcOutlinedIcon />
+          </IconButton>
+        )}
       </FlexBetween>
 
       <Divider></Divider>

@@ -112,7 +112,7 @@ const NavBar = () => {
 
           {user ? (
             <>
-              <IconButton component={Link} to={"/"}>
+              <IconButton component={Link} to={"/chat"}>
                 <EmailIcon
                   sx={{
                     fontSize: 25,

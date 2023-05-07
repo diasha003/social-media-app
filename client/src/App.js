@@ -7,10 +7,14 @@ import HomePage from "./scenes/homePage/HomePage";
 import { darkTheme, lightTheme } from "./theme";
 import NavBar from "./scenes/navBar/NavBar";
 import { ProfilePage } from "./scenes/profilePage/ProfilePage";
+import Messenger from "./scenes/messenger/Messenger";
+import { initiateSocketConnection } from "./helpers/socketHelper";
 
 function App() {
   const theme = useSelector((state) => state.darkMode);
   const isAuth = useSelector((state) => state.token);
+
+  initiateSocketConnection(isAuth);
 
   return (
     <>
@@ -30,6 +34,10 @@ function App() {
             <Route
               path="/profile/:userId"
               element={isAuth ? <ProfilePage /> : <Navigate to="/" />}
+            ></Route>
+            <Route
+              path="/chat"
+              element={isAuth ? <Messenger /> : <Navigate to="/" />}
             ></Route>
           </Routes>
         </ThemeProvider>

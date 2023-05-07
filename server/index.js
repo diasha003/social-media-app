@@ -14,8 +14,21 @@ import postRoutes from "./routes/post.js";
 import commentsRoutes from "./routes/comment.js";
 import { verifyToken } from "./middleware/auth.js";
 import { updateUser } from "./controllers/users.js";
+import http from "http";
+import { Server } from "socket.io";
+import { authSocket, socketServer } from "./socketServer.js";
 
 const app = express();
+
+const httpServer = http.createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: ["http://localhost:3000"],
+  },
+});
+io.use(authSocket);
+io.on("connection", (socket) => socketServer(socket));
+
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
@@ -48,6 +61,6 @@ const PORT = process.env.PORT || 3003;
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => {
-    app.listen(PORT, () => console.log(`Server port ${PORT}`));
+    httpServer.listen(PORT, () => console.log(`Server port ${PORT}`));
   })
   .catch((error) => console.log(error));
