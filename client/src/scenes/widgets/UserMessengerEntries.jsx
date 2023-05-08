@@ -1,7 +1,8 @@
-import { Box, Divider, IconButton, Typography } from "@mui/material";
+import { Box, Divider, IconButton, List, Typography } from "@mui/material";
 import SmsOutlinedIcon from "@mui/icons-material/SmsOutlined";
+import { UserMessengerEntry } from "./UserMessengerEntry";
 
-export const UserMessengerEntries = () => {
+export const UserMessengerEntries = (props) => {
   return (
     <>
       <Box
@@ -25,7 +26,18 @@ export const UserMessengerEntries = () => {
         <Divider sx={{ border: "1px solid #7d7e77" }} />
 
         <Box sx={{ height: "calc(100vh - 240px)" }}>
-          <Box sx={{ height: "100%" }}>111</Box>
+          <Box sx={{ height: "100%" }}>
+            <List sx={{ padding: 0, maxHeight: "100%", overflowY: "auto" }}>
+              {props.conversations.map((conversation) => (
+                <UserMessengerEntry
+                  key={conversation._id}
+                  conversant={props.conversant}
+                  conversation={conversation}
+                  setСonversant={props.setСonversant}
+                ></UserMessengerEntry>
+              ))}
+            </List>
+          </Box>
         </Box>
       </Box>
     </>

@@ -4,7 +4,7 @@ const ConversationSchema = new mongoose.Schema(
   {
     recipients: [
       {
-        type: mongoose.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "user",
       },
     ],

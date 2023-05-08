@@ -26,21 +26,21 @@ export const ContentDetails = ({
 
   return (
     <FlexBetween>
-      <FlexBetween gap="1rem" pb="1rem">
+      <FlexBetween gap="0.5rem">
         <UserImage size="50px" image={userPicturePath}></UserImage>
 
         <Box
-          onClick={() => {
+        /*onClick={() => {
             navigate(`/profile/${friendId}`);
             navigate(0);
-          }}
+          }}*/
         >
           <Typography variant="h7" sx={{ cursor: "pointer" }}>
             {name}
           </Typography>
           <Box display="flex" alignContent="center">
             <Typography fontSize="0.75rem">
-              <Moment fromNow>{createdAt}</Moment>
+              {createdAt && <Moment fromNow>{createdAt}</Moment>}
             </Typography>
 
             {editing && (

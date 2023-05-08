@@ -11,6 +11,7 @@ import fileMiddleware from "./middleware/file.js";
 import authRoutes from "./routes/auth.js";
 import usersRoutes from "./routes/users.js";
 import postRoutes from "./routes/post.js";
+import messageRoutes from "./routes/message.js";
 import commentsRoutes from "./routes/comment.js";
 import { verifyToken } from "./middleware/auth.js";
 import { updateUser } from "./controllers/users.js";
@@ -55,6 +56,7 @@ app.use("/auth", authRoutes);
 app.use("/users", usersRoutes);
 app.use("/posts", postRoutes);
 app.use("/comments", commentsRoutes);
+app.use("/messages", messageRoutes);
 
 const PORT = process.env.PORT || 3003;
 
