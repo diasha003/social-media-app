@@ -117,7 +117,7 @@ export const Messages = (props) => {
   };
 
   return props.conversant ? (
-    <Box display="flex" flexDirection="column" sx={style}>
+    <Box display="flex" flexDirection="column" sx={style} className="scroll">
       {messages ? (
         <>
           <Box display="flex" alignItems="center" gap="0.3rem" sx={{ p: 1 }}>

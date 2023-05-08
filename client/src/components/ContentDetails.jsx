@@ -15,6 +15,7 @@ export const ContentDetails = ({
   userPicturePath,
   occupation,
   editing,
+  size = "50px",
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ export const ContentDetails = ({
   return (
     <FlexBetween>
       <FlexBetween gap="0.5rem">
-        <UserImage size="50px" image={userPicturePath}></UserImage>
+        <UserImage size={size} image={userPicturePath}></UserImage>
 
         <Box
         /*onClick={() => {

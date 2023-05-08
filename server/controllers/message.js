@@ -47,7 +47,7 @@ export const getConversations = async (req, res) => {
       recipients: {
         $in: [userId],
       },
-    });
+    }).sort("-updatedAt");
 
     let conversationsNew = await Promise.all(
       conversations.map(async (conversation) => {
@@ -84,7 +84,7 @@ export const getMessages = async (req, res) => {
       conversation: conversationId,
     })
       .populate("sender", "-password")
-      .sort("-updatedAt");
+      .sort("-createdAt");
 
     res.status(200).json(messages);
   } catch (err) {

@@ -25,7 +25,7 @@ export const UserMessengerEntries = (props) => {
 
         <Divider sx={{ border: "1px solid #7d7e77" }} />
 
-        <Box sx={{ height: "calc(100vh - 240px)" }}>
+        <Box sx={{ height: "calc(100vh - 240px)" }} className="scroll">
           <Box sx={{ height: "100%" }}>
             <List sx={{ padding: 0, maxHeight: "100%", overflowY: "auto" }}>
               {props.conversations.map((conversation) => (
