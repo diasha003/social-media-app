@@ -10,7 +10,6 @@ export const verifyToken = (req, res, next) => {
 
     if (token.startsWith("Bearer ")) {
       token = token.slice(7, token.length).trimLeft();
-      //console.log(token.replace(/Bearer\s?/, ""));
     }
 
     const verified = jwt.verify(token, process.env.TOKEN_KEY);

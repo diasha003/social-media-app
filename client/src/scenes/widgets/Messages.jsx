@@ -1,9 +1,7 @@
 import { Box, Divider, Stack, Typography } from "@mui/material";
-import FlexBetween from "../../components/FlexBetween";
-import { ContentDetails } from "../../components/ContentDetails";
+
 import UserImage from "../../components/UserImage";
-import { useLocation, useNavigate } from "react-router-dom";
-import SmsOutlinedIcon from "@mui/icons-material/SmsOutlined";
+import { useNavigate } from "react-router-dom";
 import { socket } from "../../helpers/socketHelper";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -94,21 +92,68 @@ export const Messages = (props) => {
       }
     );
 
-    //socket
+    //console.log(props);
+    socket.emit("send-message", props.conversant._id, user, content);
+  };
+
+  const handleReceiveMessage = (
+    senderId,
+    senderFirstName,
+    senderLastName,
+    senderPicture,
+    content
+  ) => {
+    const newMessage = { direction: "to", content };
+    const conversation = props.getConversation(
+      conversationsRef.current,
+      senderId
+    );
+
+    if (conversation) {
+      let newMessages = [newMessage];
+      if (messagesRef.current) {
+        newMessages = [newMessage, ...messagesRef.current];
+      }
+
+      setMessages(newMessages);
+
+      if (conversation.new) {
+        conversation.messages = newMessages;
+      }
+
+      conversation.lastMessageAt = Date.now();
+
+      let newConversations = conversationsRef.current.filter(
+        (conversationCompare) => conversationCompare._id !== conversation._id
+      );
+
+      newConversations.unshift(conversation);
+      props.setConversations(newConversations);
+    } else {
+      const newConversation = {
+        _id: senderId,
+        recipient: {
+          _id: senderId,
+          firstName: senderFirstName,
+          lastName: senderLastName,
+          picturePath: senderPicture,
+        },
+        new: true,
+        messages: [newMessage],
+        lastMessageAt: Date.now(),
+      };
+
+      props.setConversations([newConversation, ...conversationsRef.current]);
+    }
   };
 
   useEffect(() => {
     fetchMessages();
   }, [props.conversant]);
 
-  const fake = () => {
-    socket.emit(
-      "send-message"
-      //conversation.recipient._id,
-      //user.username,
-      //content
-    );
-  };
+  useEffect(() => {
+    socket.on("receive-message", handleReceiveMessage);
+  });
 
   const style = {
     borderTop: "2px solid #7d7e77",
