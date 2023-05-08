@@ -29,6 +29,8 @@ export const CommentWidget = (props) => {
   const userId = useSelector((state) => state.user._id);
   const token = useSelector((state) => state.token);
 
+  //console.log(comment.edited);
+
   const handleDelete = async () => {
     let childComments = comment.children[0];
     let idsToDelete = [comment._id];
@@ -110,10 +112,10 @@ export const CommentWidget = (props) => {
             <FlexBetween>
               <FlexBetween gap="1rem">
                 <ContentDetails
-                  friendId={comment.commenter._id}
-                  createdAt={comment.updatedAt}
+                  createdAt={comment.createdAt}
                   name={`${comment.commenter.firstName} ${comment.commenter.lastName}`}
                   userPicturePath={comment.commenter.picturePath}
+                  edited={comment.edited}
                 ></ContentDetails>
                 <IconButton
                   sx={{ color: "#000000" }}

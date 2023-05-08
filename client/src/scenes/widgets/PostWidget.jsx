@@ -33,13 +33,13 @@ export const PostWidget = ({
   postUserId,
   description,
   likes,
-  comments,
+
   createdAt,
   picturePath,
   name,
   userPicturePath,
-  updatedAt,
   editing,
+  isProfile = false,
 }) => {
   useEffect(() => {}, []);
   const dispatch = useDispatch();
@@ -99,7 +99,7 @@ export const PostWidget = ({
   };
 
   return (
-    <WidgetWrapper mt="1rem">
+    <WidgetWrapper mb="1rem">
       <Friend
         friendId={postUserId}
         createdAt={createdAt}

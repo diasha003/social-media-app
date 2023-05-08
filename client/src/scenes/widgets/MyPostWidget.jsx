@@ -68,7 +68,7 @@ export const MyPostWidget = ({ userId, picturePath }) => {
   };
 
   return (
-    <WidgetWrapper>
+    <WidgetWrapper mb="1rem">
       <Box>
         <FlexBetween gap="1.5rem" pb="1rem">
           <UserImage image={picturePath} size="50px"></UserImage>

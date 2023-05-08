@@ -21,19 +21,19 @@ const HomePage = () => {
     >
       <Box flexBasis="22%">
         <UserWidget
-          userId={user._id}
-          picturePath={user.picturePath}
+          userId={user && user._id}
+          picturePath={user && user.picturePath}
         ></UserWidget>
       </Box>
       <Box flexBasis="44%">
         <MyPostWidget
-          userId={user._id}
-          picturePath={user.picturePath}
+          userId={user && user._id}
+          picturePath={user && user.picturePath}
         ></MyPostWidget>
         <PostsWidget></PostsWidget>
       </Box>
       <Box flexBasis="22%">
-        <FriendListWidget user={user}></FriendListWidget>
+        <FriendListWidget user={user && user}></FriendListWidget>
       </Box>
     </Box>
   );

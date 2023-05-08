@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { setFriends } from "../store/authSlice";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export const Friend = ({
   friendId,

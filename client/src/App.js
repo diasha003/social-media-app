@@ -30,7 +30,10 @@ function App() {
               path="/signup"
               element={isAuth ? <Navigate to="/" /> : <Register />}
             ></Route>
-            <Route path="/" element={<HomePage></HomePage>}></Route>
+            <Route
+              path="/"
+              element={isAuth ? <HomePage /> : <Navigate to="/login" />}
+            ></Route>
             <Route
               path="/profile/:userId"
               element={isAuth ? <ProfilePage /> : <Navigate to="/" />}

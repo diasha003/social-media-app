@@ -13,18 +13,10 @@ export const ContentDetails = ({
   createdAt,
   name,
   userPicturePath,
-  occupation,
-  editing,
+
+  edited,
   size = "50px",
 }) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { _id } = useSelector((state) => state.user);
-  const token = useSelector((state) => {
-    return state.token;
-  });
-  const friends = useSelector((state) => state.userFriends);
-
   return (
     <FlexBetween>
       <FlexBetween gap="0.5rem">
@@ -44,7 +36,7 @@ export const ContentDetails = ({
               {createdAt && <Moment fromNow>{createdAt}</Moment>}
             </Typography>
 
-            {editing && (
+            {edited && (
               <Typography fontSize="12px" pl="4px" sx={{ fontStyle: "italic" }}>
                 (Edited)
               </Typography>

@@ -82,6 +82,7 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
                 picturePath={picturePath}
                 updatedAt={updatedAt}
                 editing={editing}
+                isProfile={isProfile}
               ></PostWidget>
             </>
           )

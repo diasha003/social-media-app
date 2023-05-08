@@ -1,15 +1,4 @@
-import {
-  Box,
-  Typography,
-  AppBar,
-  Toolbar,
-  Container,
-  Button,
-  InputBase,
-  IconButton,
-  TextField,
-} from "@mui/material";
-import axios from "axios";
+import { Box, Typography, Button, InputBase, IconButton } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import FlexBetween from "../../components/FlexBetween";
 import ConnectWithoutContactIcon from "@mui/icons-material/ConnectWithoutContact";
@@ -21,7 +10,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import PersonIcon from "@mui/icons-material/Person";
 
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { setLogout, setMode } from "../../store/authSlice";
 
@@ -59,24 +48,26 @@ const NavBar = () => {
           </Typography>
         </FlexBetween>
 
-        <Box
-          sx={{
-            border: "1px solid gray",
-          }}
-        >
-          <InputBase
-            sx={{ ml: 1, flex: 1, color: "#000000" }}
-            placeholder="Search..."
-            inputProps={{ "aria-label": "search google maps" }}
-          />
-          <IconButton
-            type="button"
-            sx={{ p: "10px", color: "#000000" }}
-            aria-label="search"
+        {user && (
+          <Box
+            sx={{
+              border: "1px solid gray",
+            }}
           >
-            <SearchIcon />
-          </IconButton>
-        </Box>
+            <InputBase
+              sx={{ ml: 1, flex: 1, color: "#000000" }}
+              placeholder="Search..."
+              inputProps={{ "aria-label": "search google maps" }}
+            />
+            <IconButton
+              type="button"
+              sx={{ p: "10px", color: "#000000" }}
+              aria-label="search"
+            >
+              <SearchIcon />
+            </IconButton>
+          </Box>
+        )}
 
         <FlexBetween>
           <IconButton onClick={() => dispatch(setMode())}>
@@ -100,18 +91,18 @@ const NavBar = () => {
               </>
             )}
           </IconButton>
-          <IconButton component={Link} to={"/"}>
-            <HomeIcon
-              sx={{
-                fontSize: 25,
-                cursor: "pointer",
-                color: "#000000",
-              }}
-            />
-          </IconButton>
 
           {user ? (
             <>
+              <IconButton component={Link} to={"/"}>
+                <HomeIcon
+                  sx={{
+                    fontSize: 25,
+                    cursor: "pointer",
+                    color: "#000000",
+                  }}
+                />
+              </IconButton>
               <IconButton component={Link} to={"/chat"}>
                 <EmailIcon
                   sx={{
@@ -121,15 +112,7 @@ const NavBar = () => {
                   }}
                 />
               </IconButton>
-              <IconButton component={Link} to={"/"}>
-                <PersonIcon
-                  sx={{
-                    fontSize: 25,
-                    cursor: "pointer",
-                    color: "#000000",
-                  }}
-                />
-              </IconButton>
+
               <Button
                 variant="text"
                 sx={{ marginRight: "4px" }}
@@ -158,3 +141,13 @@ const NavBar = () => {
 };
 
 export default NavBar;
+
+/* <IconButton component={Link} to={"/"}>
+                <PersonIcon
+                  sx={{
+                    fontSize: 25,
+                    cursor: "pointer",
+                    color: "#000000",
+                  }}
+                />
+              </IconButton>*/
