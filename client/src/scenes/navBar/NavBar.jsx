@@ -11,7 +11,7 @@ import PersonIcon from "@mui/icons-material/Person";
 
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   setFiltered,
   setFilteredPosts,
@@ -160,13 +160,3 @@ const NavBar = () => {
 };
 
 export default NavBar;
-
-/* <IconButton component={Link} to={"/"}>
-                <PersonIcon
-                  sx={{
-                    fontSize: 25,
-                    cursor: "pointer",
-                    color: "#000000",
-                  }}
-                />
-              </IconButton>*/

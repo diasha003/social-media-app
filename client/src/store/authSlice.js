@@ -10,7 +10,8 @@ const authSlice = createSlice({
     token: null,
     posts: [],
     countLike: 0,
-    filteredPosts: [],
+    allFriends: [],
+    allFilterFriends: [],
   },
   reducers: {
     setMode(state, action) {
@@ -48,15 +49,17 @@ const authSlice = createSlice({
       state.posts = updatePosts;
     },
     setFilteredPosts(state, action) {
-      const filteredPosts = state.posts.filter((post) =>
-        post.description.includes(action.payload)
-      );
+      if (action.payload) {
+        const filteredPosts = state.posts.filter((post) =>
+          post.description.includes(action.payload)
+        );
 
-      state.filteredPosts = filteredPosts;
+        state.filteredPosts = filteredPosts;
+      } else {
+        state.filteredPosts = [];
+      }
     },
-    setFilteredClear(state, action) {
-      state.filteredPosts = [];
-    },
+
     setCountLike(state, action) {
       //console.log(action.payload);
       let allCount = 0;
@@ -66,7 +69,23 @@ const authSlice = createSlice({
         }
       });
       state.countLike = allCount;
-      console.log(state.countLike);
+      //console.log(state.countLike);
+    },
+    setAllFriends(state, action) {
+      state.allFriends = action.payload;
+    },
+    setAllFilteredFriends(state, action) {
+      if (action.payload) {
+        const filteredFriends = state.allFriends.filter(
+          (friend) =>
+            friend.firstName.includes(action.payload) ||
+            friend.lastName.includes(action.payload)
+        );
+
+        state.allFilterFriends = filteredFriends;
+      } else {
+        state.allFilterFriends = [];
+      }
     },
   },
 });
@@ -82,6 +101,7 @@ export const {
   setCountLike,
   setFriendFriends,
   setFilteredPosts,
-  setFilteredClear,
+  setAllFriends,
+  setAllFilteredFriends,
 } = authSlice.actions;
 export default authSlice.reducer;

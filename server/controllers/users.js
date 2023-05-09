@@ -185,3 +185,22 @@ export const updateViewedUser = async (req, res) => {
     return res.status(400).json({ error: err.message });
   }
 };
+
+export const getAllFriends = async (req, res) => {
+  try {
+    const user = await User.find();
+    console.log(user);
+
+    const formattedFriends = user.map(
+      ({ _id, firstName, lastName, occupation, location, picturePath }) => {
+        return { _id, firstName, lastName, occupation, location, picturePath };
+      }
+    );
+
+    console.log(formattedFriends);
+
+    res.status(200).json(formattedFriends);
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+};
