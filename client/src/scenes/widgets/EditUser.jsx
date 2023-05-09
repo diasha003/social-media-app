@@ -1,20 +1,5 @@
-import {
-  Box,
-  Button,
-  Typography,
-  Modal,
-  TextField,
-  IconButton,
-} from "@mui/material";
-
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import { Box, Modal, IconButton } from "@mui/material";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
-import FlexBetween from "../../components/FlexBetween";
-import Dropzone from "react-dropzone";
-import { useState } from "react";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { setPost } from "../../store/authSlice";
 import FormUser from "../../components/FormUser";
 
 const style = {
@@ -29,15 +14,6 @@ const style = {
 };
 
 export const EditUser = ({ user, isOpen, onClose }) => {
-  const dispatch = useDispatch();
-  //const [image, setImage] = useState(post.picturePath);
-  const token = useSelector((state) => state.token);
-  //const [description, setDescription] = useState(post.description);
-
-  const changeHandler = (e) => {
-    //setDescription(e.target.value);
-  };
-
   return (
     <Box>
       <Modal

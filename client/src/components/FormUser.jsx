@@ -9,7 +9,7 @@ import { Formik } from "formik";
 import axios from "axios";
 import { CssTextField } from "../theme";
 import { useDispatch, useSelector } from "react-redux";
-import { setLogin, setUpdateUser } from "../store/authSlice";
+import { setLogin, setPosts, setUpdateUser } from "../store/authSlice";
 
 const FormUser = ({ update = false, user = null, onClose }) => {
   const navigate = useNavigate();
@@ -116,8 +116,9 @@ const FormUser = ({ update = false, user = null, onClose }) => {
         }
       );
       //console.log(result.data);
-      dispatch(setUpdateUser({ user: result.data }));
-      onClose(result.data);
+      dispatch(setUpdateUser({ user: result.data.updateUser }));
+      dispatch(setPosts({ posts: result.data.allPosts }));
+      onClose(result.data.updateUser);
     } catch (error) {
       if (error.response.data) {
         if (error.response.data.message === "Passwords must match") {

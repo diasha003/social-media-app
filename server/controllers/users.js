@@ -33,7 +33,7 @@ export const getUser = async (req, res) => {
 export const getUserFriends = async (req, res) => {
   try {
     const { _id } = req.params;
-    console.log(req.params);
+    //console.log(req.params);
     const user = await User.findById(_id);
     const friends = await Promise.all(
       user.friends.map((id) => User.findById(id))
@@ -45,7 +45,7 @@ export const getUserFriends = async (req, res) => {
       }
     );
 
-    console.log(formattedFriends);
+    //console.log(formattedFriends);
 
     res.status(200).json(formattedFriends);
   } catch (err) {
@@ -55,7 +55,7 @@ export const getUserFriends = async (req, res) => {
 
 export const addRemoveFriend = async (req, res) => {
   try {
-    console.log(req.body);
+    //console.log(req.body);
     const { _id, friendId } = req.params;
     const user = await User.findById(_id);
     const friend = await User.findById(friendId);
@@ -91,7 +91,7 @@ export const addRemoveFriend = async (req, res) => {
       }
     );
 
-    console.log({ formattedFriends, formattedFriendFriends });
+    //console.log({ formattedFriends, formattedFriendFriends });
 
     res.status(200).json({ formattedFriends, formattedFriendFriends });
   } catch (err) {
@@ -155,7 +155,19 @@ export const updateUser = async (req, res) => {
       { new: true }
     );
 
-    return res.status(200).json(updateUser);
+    const updatePosts = await Post.updateMany(
+      { userId: id },
+      {
+        firstName,
+        lastName,
+        userPicturePath: picturePath,
+      },
+      { new: true }
+    );
+
+    const allPosts = await Post.find();
+
+    return res.status(200).json({ updateUser, allPosts });
   } catch (err) {
     return res.status(400).json({ error: err.message });
   }
@@ -189,7 +201,7 @@ export const updateViewedUser = async (req, res) => {
 export const getAllFriends = async (req, res) => {
   try {
     const user = await User.find();
-    console.log(user);
+    //console.log(user);
 
     const formattedFriends = user.map(
       ({ _id, firstName, lastName, occupation, location, picturePath }) => {
@@ -197,7 +209,7 @@ export const getAllFriends = async (req, res) => {
       }
     );
 
-    console.log(formattedFriends);
+    //console.log(formattedFriends);
 
     res.status(200).json(formattedFriends);
   } catch (err) {

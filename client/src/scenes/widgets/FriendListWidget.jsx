@@ -91,7 +91,7 @@ export const FriendListWidget = ({ user, isProfile = false }) => {
         />
         <IconButton
           type="button"
-          sx={{ color: "#000000", ml: "27px" }}
+          sx={{ color: "#000000", ml: isProfile ? "3.5rem" : "1.5rem" }}
           aria-label="search"
           onClick={() => {
             setSearch("");
