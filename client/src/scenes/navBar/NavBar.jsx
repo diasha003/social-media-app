@@ -10,16 +10,33 @@ import EmailIcon from "@mui/icons-material/Email";
 import PersonIcon from "@mui/icons-material/Person";
 
 import { useDispatch, useSelector } from "react-redux";
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { setLogout, setMode } from "../../store/authSlice";
+import {
+  setFiltered,
+  setFilteredPosts,
+  setLogout,
+  setMode,
+} from "../../store/authSlice";
 
 const NavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
+  const [search, setSearch] = useState("");
+  const posts = useSelector((state) => state.posts);
 
   const theme = useTheme();
+
+  const handleChange = (e) => {
+    if (e.target.value) {
+      setSearch(e.target.value);
+      dispatch(setFilteredPosts(search));
+    } else {
+      setSearch("");
+      dispatch(setFilteredPosts());
+    }
+  };
 
   return (
     <>
@@ -58,6 +75,8 @@ const NavBar = () => {
               sx={{ ml: 1, flex: 1, color: "#000000" }}
               placeholder="Search..."
               inputProps={{ "aria-label": "search google maps" }}
+              onChange={handleChange}
+              value={search}
             />
             <IconButton
               type="button"

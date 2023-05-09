@@ -10,6 +10,7 @@ const authSlice = createSlice({
     token: null,
     posts: [],
     countLike: 0,
+    filteredPosts: [],
   },
   reducers: {
     setMode(state, action) {
@@ -46,6 +47,16 @@ const authSlice = createSlice({
       });
       state.posts = updatePosts;
     },
+    setFilteredPosts(state, action) {
+      const filteredPosts = state.posts.filter((post) =>
+        post.description.includes(action.payload)
+      );
+
+      state.filteredPosts = filteredPosts;
+    },
+    setFilteredClear(state, action) {
+      state.filteredPosts = [];
+    },
     setCountLike(state, action) {
       //console.log(action.payload);
       let allCount = 0;
@@ -70,5 +81,7 @@ export const {
   setUpdateUser,
   setCountLike,
   setFriendFriends,
+  setFilteredPosts,
+  setFilteredClear,
 } = authSlice.actions;
 export default authSlice.reducer;
