@@ -6,8 +6,10 @@ const authSlice = createSlice({
     darkMode: false,
     user: null,
     userFriends: [],
+    friendFriends: [],
     token: null,
     posts: [],
+    countLike: 0,
   },
   reducers: {
     setMode(state, action) {
@@ -23,9 +25,14 @@ const authSlice = createSlice({
     setLogout(state, action) {
       state.user = null;
       state.token = null;
+      state.userFriends = [];
+      state.friendFriends = [];
     },
     setFriends(state, action) {
       state.userFriends = action.payload.friends;
+    },
+    setFriendFriends(state, action) {
+      state.friendFriends = action.payload.friends;
     },
     setPosts(state, action) {
       /*console.log(state.posts);
@@ -39,6 +46,17 @@ const authSlice = createSlice({
       });
       state.posts = updatePosts;
     },
+    setCountLike(state, action) {
+      //console.log(action.payload);
+      let allCount = 0;
+      state.posts.map((post) => {
+        if (post.userId === action.payload.userId) {
+          allCount += Object.keys(post.likes).length;
+        }
+      });
+      state.countLike = allCount;
+      console.log(state.countLike);
+    },
   },
 });
 
@@ -50,5 +68,7 @@ export const {
   setPosts,
   setPost,
   setUpdateUser,
+  setCountLike,
+  setFriendFriends,
 } = authSlice.actions;
 export default authSlice.reducer;

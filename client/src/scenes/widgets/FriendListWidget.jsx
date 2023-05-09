@@ -1,20 +1,25 @@
 import { useDispatch, useSelector } from "react-redux";
-import FlexBetween from "../../components/FlexBetween";
 import { Friend } from "../../components/Friend";
 import WidgetWrapper from "../../components/WidgetWrapper";
 import axios from "axios";
 import { useEffect } from "react";
-import { setFriends } from "../../store/authSlice";
+import { setFriendFriends, setFriends } from "../../store/authSlice";
 import { Box, List, Typography } from "@mui/material";
+import { useParams } from "react-router-dom";
 
-export const FriendListWidget = ({ user }) => {
+export const FriendListWidget = ({ user, isProfile = false }) => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
-  const friends = useSelector((state) => state.userFriends);
+  const { userId } = useParams();
+  const friends = useSelector((state) =>
+    isProfile ? state.friendFriends : state.userFriends
+  );
+
+  // console.log("user ", friendId);
 
   const getFriends = async () => {
     const responce = await axios.get(
-      `http://localhost:3001/users/${user._id}/friends`,
+      `http://localhost:3001/users/${isProfile ? userId : user._id}/friends`,
       {
         headers: {
           Authorization: "Bearer " + token,
@@ -22,9 +27,10 @@ export const FriendListWidget = ({ user }) => {
       }
     );
     const allFriends = responce.data;
-    console.log(allFriends);
-    dispatch(setFriends({ friends: allFriends }));
-    //console.log(allFriends);
+
+    isProfile
+      ? dispatch(setFriendFriends({ friends: allFriends }))
+      : dispatch(setFriends({ friends: allFriends }));
   };
 
   useEffect(() => {
@@ -40,17 +46,19 @@ export const FriendListWidget = ({ user }) => {
       <Box sx={{ height: "calc(100vh - 390px)" }} className="scroll">
         <Box sx={{ height: "100%" }}>
           <List sx={{ padding: 0, maxHeight: "100%", overflowY: "auto" }}>
-            {friends.map((friend) => (
-              <>
-                <Friend
-                  key={friend._id}
-                  friendId={friend._id}
-                  name={`${friend.firstName} ${friend.lastName}`}
-                  userPicturePath={friend.picturePath}
-                  occupation={friend.occupation}
-                ></Friend>
-              </>
-            ))}
+            {friends &&
+              friends.map((friend) => (
+                <>
+                  <Friend
+                    key={friend._id}
+                    friendId={friend._id}
+                    userId={user._id}
+                    name={`${friend.firstName} ${friend.lastName}`}
+                    userPicturePath={friend.picturePath}
+                    occupation={friend.occupation}
+                  ></Friend>
+                </>
+              ))}
           </List>
         </Box>
       </Box>

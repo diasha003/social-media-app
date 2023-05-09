@@ -1,12 +1,7 @@
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Moment from "react-moment";
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
-
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import { setFriends } from "../store/authSlice";
-import { useNavigate } from "react-router-dom";
 
 export const ContentDetails = ({
   friendId,

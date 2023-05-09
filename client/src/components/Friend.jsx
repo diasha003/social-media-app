@@ -6,9 +6,8 @@ import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import PersonRemoveOutlinedIcon from "@mui/icons-material/PersonRemoveOutlined";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { setFriends } from "../store/authSlice";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { setFriendFriends, setFriends } from "../store/authSlice";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const Friend = ({
   friendId,
@@ -24,14 +23,17 @@ export const Friend = ({
   const token = useSelector((state) => {
     return state.token;
   });
-  const friends = useSelector((state) => state.userFriends);
+  const userFriends = useSelector((state) => state.userFriends);
 
-  const isFriend = friends.find((friend) => friend._id === friendId);
+  const isFriend = userFriends.find((friend) => friend._id === friendId);
+
+  const { userId } = useParams();
 
   const patchFriend = async () => {
+    //console.log("!!! ", userId);
     const res = await axios.patch(
       `http://localhost:3001/users/${_id}/${friendId}`,
-      _id,
+      { friendId: friendId },
       {
         headers: {
           Authorization: "Bearer " + token,
@@ -39,9 +41,13 @@ export const Friend = ({
       }
     );
 
-    //console.log(res.data);
     const result = res.data;
-    dispatch(setFriends({ friends: result }));
+    //console.log(result);
+    dispatch(setFriends({ friends: result.formattedFriends }));
+    if (userId) {
+      userId === friendId &&
+        dispatch(setFriendFriends({ friends: result.formattedFriendFriends }));
+    }
   };
 
   return (

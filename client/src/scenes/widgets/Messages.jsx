@@ -1,5 +1,4 @@
 import { Box, Divider, Stack, Typography } from "@mui/material";
-
 import UserImage from "../../components/UserImage";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../../helpers/socketHelper";

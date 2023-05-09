@@ -13,16 +13,22 @@ import {
   LinkedInOutlined,
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { EditUser } from "./EditUser";
 import { useNavigate } from "react-router-dom";
+import { setCountLike } from "../../store/authSlice";
 
 export const UserWidget = ({ userId, picturePath }) => {
   const [user, setUser] = useState(null);
-  const [likes, setLikes] = useState(0);
+  const [newUser, setNewUser] = useState(null);
+
   const token = useSelector((state) => state.token);
   const userIdLogin = useSelector((state) => state.user._id);
+  const countLike = useSelector((state) => state.countLike);
+  const countFriends = useSelector((state) => state.userFriends.length);
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [selectedUser, setSelectedUser] = useState(null);
@@ -36,12 +42,8 @@ export const UserWidget = ({ userId, picturePath }) => {
   const handleModalClose = (userNew) => {
     setSelectedUser(null);
     setIsModalOpen(false);
+    setNewUser(userNew);
     setUser(userNew);
-    /*if (userNew) {
-      setUser(userNew);
-    } else {
-      setUser(user);
-    }*/
   };
 
   const handleMessage = () => {
@@ -50,7 +52,7 @@ export const UserWidget = ({ userId, picturePath }) => {
 
   useEffect(() => {
     getUser();
-  }, []);
+  }, [newUser]);
 
   const getUser = async () => {
     const result = await axios.get(`http://localhost:3001/users/${userId}`, {
@@ -58,17 +60,16 @@ export const UserWidget = ({ userId, picturePath }) => {
         Authorization: "Bearer " + token,
       },
     });
-    //console.log(result.data);
+
     setUser(result.data.user);
-    setLikes(result.data.likeCount);
+    dispatch(setCountLike({ userId: userId }));
   };
 
   if (!user) {
     return null;
   }
 
-  const { firstName, lastName, location, occupation, viewedProfile, friends } =
-    user;
+  const { firstName, lastName, location, occupation, viewedProfile } = user;
 
   return (
     <WidgetWrapper>
@@ -85,7 +86,7 @@ export const UserWidget = ({ userId, picturePath }) => {
             >
               {firstName} {lastName}
             </Typography>
-            <Typography color="#00353F">{friends.length} friends</Typography>
+            <Typography color="#00353F">{countFriends} friends</Typography>
           </Box>
         </FlexBetween>
         {userId === userIdLogin ? (
@@ -124,7 +125,7 @@ export const UserWidget = ({ userId, picturePath }) => {
         <FlexBetween gap="1rem">
           <Typography color="#00353F">Impressions of your post</Typography>
           <Typography color="#00353F" fontWeight="600">
-            {likes}
+            {countLike}
           </Typography>
         </FlexBetween>
       </Box>

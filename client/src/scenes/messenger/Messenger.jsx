@@ -1,7 +1,5 @@
 import { Box, Container, Grid } from "@mui/material";
-
 import { useSelector } from "react-redux";
-import WidgetWrapper from "../../components/WidgetWrapper";
 import { UserMessengerEntries } from "../widgets/UserMessengerEntries";
 import { Messages } from "../widgets/Messages";
 import axios from "axios";
@@ -9,7 +7,6 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 const Messenger = () => {
-  const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
   const [conversant, setСonversant] = useState(null);
   const [conversations, setConversations] = useState([]);

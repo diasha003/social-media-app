@@ -5,26 +5,14 @@ import {
 } from "@mui/icons-material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-
-import {
-  Box,
-  CardMedia,
-  Divider,
-  IconButton,
-  Typography,
-  Modal,
-  Button,
-  TextField,
-} from "@mui/material";
-import Dropzone from "react-dropzone";
-
+import { Box, CardMedia, IconButton, Typography } from "@mui/material";
 import WidgetWrapper from "../../components/WidgetWrapper";
 import { Friend } from "../../components/Friend";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import FlexBetween from "../../components/FlexBetween";
 import { useDispatch, useSelector } from "react-redux";
-import { setPost, setPosts } from "../../store/authSlice";
+import { setCountLike, setPost, setPosts } from "../../store/authSlice";
 import { EditPost } from "./EditPost";
 import { CommentsWidget } from "./CommentsWidget";
 
@@ -81,6 +69,7 @@ export const PostWidget = ({
 
     const updatedPost = response.data;
     dispatch(setPost({ post: updatedPost }));
+    dispatch(setCountLike({ userId: postUserId }));
   };
 
   const deletePost = async () => {
