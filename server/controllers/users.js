@@ -33,7 +33,7 @@ export const getUser = async (req, res) => {
 export const getUserFriends = async (req, res) => {
   try {
     const { _id } = req.params;
-    //console.log(req.params);
+    console.log(req.params);
     const user = await User.findById(_id);
     const friends = await Promise.all(
       user.friends.map((id) => User.findById(id))
@@ -45,7 +45,7 @@ export const getUserFriends = async (req, res) => {
       }
     );
 
-    //console.log(formattedFriends);
+    console.log(formattedFriends);
 
     res.status(200).json(formattedFriends);
   } catch (err) {

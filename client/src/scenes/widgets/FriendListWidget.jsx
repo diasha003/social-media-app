@@ -15,7 +15,7 @@ export const FriendListWidget = ({ user, isProfile = false }) => {
     isProfile ? state.friendFriends : state.userFriends
   );
 
-  // console.log("user ", friendId);
+  console.log("user ", isProfile);
 
   const getFriends = async () => {
     const responce = await axios.get(

@@ -19,14 +19,16 @@ import { EditUser } from "./EditUser";
 import { useNavigate } from "react-router-dom";
 import { setCountLike } from "../../store/authSlice";
 
-export const UserWidget = ({ userId, picturePath }) => {
+export const UserWidget = ({ userId, picturePath, isProfile = false }) => {
   const [user, setUser] = useState(null);
   const [newUser, setNewUser] = useState(null);
 
   const token = useSelector((state) => state.token);
   const userIdLogin = useSelector((state) => state.user._id);
   const countLike = useSelector((state) => state.countLike);
-  const countFriends = useSelector((state) => state.userFriends.length);
+  const countFriends = useSelector((state) =>
+    isProfile ? state.friendFriends.length : state.userFriends.length
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

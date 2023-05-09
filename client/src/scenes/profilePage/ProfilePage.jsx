@@ -41,7 +41,11 @@ export const ProfilePage = () => {
         justifyContent="center"
       >
         <Box flexBasis="26%">
-          <UserWidget userId={userId} picturePath={user.picturePath} />
+          <UserWidget
+            userId={userId}
+            picturePath={user.picturePath}
+            isProfile={true}
+          />
           <Box m="2rem 0" />
           <FriendListWidget user={user} isProfile={true} />
         </Box>

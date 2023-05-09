@@ -30,7 +30,7 @@ export const Friend = ({
   const { userId } = useParams();
 
   const patchFriend = async () => {
-    //console.log("!!! ", userId);
+    //console.log("!!! ", userId, "   ", friendId);
     const res = await axios.patch(
       `http://localhost:3001/users/${_id}/${friendId}`,
       { friendId: friendId },
