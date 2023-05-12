@@ -1,14 +1,19 @@
 import { Box, Divider, IconButton, List, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import SmsOutlinedIcon from "@mui/icons-material/SmsOutlined";
 import { UserMessengerEntry } from "./UserMessengerEntry";
 
 export const UserMessengerEntries = (props) => {
+  const theme = useTheme();
   return (
     <>
       <Box
         display="flex"
         flexDirection="column"
-        sx={{ border: "2px solid #7d7e77" }}
+        sx={{
+          border: "2px solid #7d7e77",
+          backgroundColor: theme.palette.background.alt,
+        }}
       >
         <Box
           display="flex"
@@ -16,9 +21,15 @@ export const UserMessengerEntries = (props) => {
           gap="0.5rem"
           sx={{ pl: 2, pt: 2, pb: 1 }}
         >
-          <SmsOutlinedIcon sx={{ fontSize: "2.15rem" }}></SmsOutlinedIcon>
+          <SmsOutlinedIcon
+            sx={{ fontSize: "2.15rem", color: theme.palette.text.icon }}
+          ></SmsOutlinedIcon>
 
-          <Typography variant="h7" sx={{ cursor: "pointer" }}>
+          <Typography
+            variant="h7"
+            color={theme.palette.text.primary}
+            sx={{ cursor: "pointer" }}
+          >
             Your Conversations
           </Typography>
         </Box>

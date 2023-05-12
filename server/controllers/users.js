@@ -165,7 +165,7 @@ export const updateUser = async (req, res) => {
       { new: true }
     );
 
-    const allPosts = await Post.find();
+    const allPosts = await Post.find().sort({ createdAt: -1 });
 
     return res.status(200).json({ updateUser, allPosts });
   } catch (err) {

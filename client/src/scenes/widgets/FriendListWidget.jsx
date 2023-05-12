@@ -10,6 +10,7 @@ import {
   setFriends,
 } from "../../store/authSlice";
 import { Box, IconButton, InputBase, List, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { useParams } from "react-router-dom";
 
@@ -22,6 +23,8 @@ export const FriendListWidget = ({ user, isProfile = false }) => {
   );
   const allFilteredFriends = useSelector((state) => state.allFilterFriends);
   const [search, setSearch] = useState("");
+
+  const theme = useTheme();
 
   //console.log("user ", isProfile);
 
@@ -71,7 +74,11 @@ export const FriendListWidget = ({ user, isProfile = false }) => {
       <Typography
         variant="h6"
         fontWeight="700"
-        sx={{ textAlign: "center", mb: "0.2rem" }}
+        sx={{
+          textAlign: "center",
+          mb: "0.2rem",
+          color: theme.palette.text.primary,
+        }}
       >
         Friend List
       </Typography>
@@ -83,7 +90,7 @@ export const FriendListWidget = ({ user, isProfile = false }) => {
         }}
       >
         <InputBase
-          sx={{ ml: 2, flex: 1, color: "#000000" }}
+          sx={{ ml: 2, flex: 1, color: theme.palette.text.primary }}
           placeholder="Search friend..."
           inputProps={{ "aria-label": "search google maps" }}
           onChange={handleChange}
@@ -91,7 +98,10 @@ export const FriendListWidget = ({ user, isProfile = false }) => {
         />
         <IconButton
           type="button"
-          sx={{ color: "#000000", ml: isProfile ? "3.5rem" : "1.5rem" }}
+          sx={{
+            color: theme.palette.text.icon,
+            ml: isProfile ? "3.5rem" : "1.5rem",
+          }}
           aria-label="search"
           onClick={() => {
             setSearch("");

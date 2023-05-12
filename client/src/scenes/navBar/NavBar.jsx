@@ -24,9 +24,9 @@ const NavBar = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const [search, setSearch] = useState("");
-  const posts = useSelector((state) => state.posts);
 
   const theme = useTheme();
+  console.log(theme);
 
   const handleChange = (e) => {
     if (e.target.value) {
@@ -40,11 +40,18 @@ const NavBar = () => {
 
   return (
     <>
-      <FlexBetween backgroundColor="#e8efe6" padding="0.6rem 3%">
+      <FlexBetween
+        backgroundColor={theme.palette.background.navbar}
+        padding="0.6rem 3%"
+      >
         <FlexBetween>
           <ConnectWithoutContactIcon
             fontSize="large"
-            sx={{ display: { xs: "flex" }, mr: 1, color: "black" }}
+            sx={{
+              display: { xs: "flex" },
+              mr: 1,
+              color: theme.palette.text.icon,
+            }}
           />
           <Typography
             variant="h4"
@@ -53,10 +60,11 @@ const NavBar = () => {
             sx={{
               mr: 2,
               display: { xs: "flex" },
+              color: theme.palette.text.primary,
               flexGrow: 1,
               fontFamily: "monospace",
               fontWeight: 700,
-              color: "black",
+
               letterSpacing: ".3rem",
               textDecoration: "none",
             }}
@@ -72,7 +80,7 @@ const NavBar = () => {
             }}
           >
             <InputBase
-              sx={{ ml: 1, flex: 1, color: "#000000" }}
+              sx={{ ml: 1, flex: 1, color: theme.palette.text.primary }}
               placeholder="Search..."
               inputProps={{ "aria-label": "search google maps" }}
               onChange={handleChange}
@@ -80,7 +88,7 @@ const NavBar = () => {
             />
             <IconButton
               type="button"
-              sx={{ p: "10px", color: "#000000" }}
+              sx={{ p: "10px", color: theme.palette.text.icon }}
               aria-label="search"
             >
               <SearchIcon />
@@ -95,7 +103,7 @@ const NavBar = () => {
                 <DarkModeIcon
                   sx={{
                     fontSize: 25,
-                    color: "#000000",
+                    color: theme.palette.text.icon,
                   }}
                 />
               </>
@@ -104,7 +112,7 @@ const NavBar = () => {
                 <LightModeIcon
                   sx={{
                     fontSize: 25,
-                    color: "#000000",
+                    color: theme.palette.text.icon,
                   }}
                 />
               </>
@@ -118,7 +126,7 @@ const NavBar = () => {
                   sx={{
                     fontSize: 25,
                     cursor: "pointer",
-                    color: "#000000",
+                    color: theme.palette.text.icon,
                   }}
                 />
               </IconButton>
@@ -127,7 +135,7 @@ const NavBar = () => {
                   sx={{
                     fontSize: 25,
                     cursor: "pointer",
-                    color: "#000000",
+                    color: theme.palette.text.icon,
                   }}
                 />
               </IconButton>

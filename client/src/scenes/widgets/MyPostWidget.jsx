@@ -17,6 +17,7 @@ import Dropzone from "react-dropzone";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "../../store/authSlice";
+import { useTheme } from "@mui/material/styles";
 
 export const MyPostWidget = ({ userId, picturePath }) => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ export const MyPostWidget = ({ userId, picturePath }) => {
   const [post, setPost] = useState("");
   const { _id } = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
+  const theme = useTheme();
 
   const changeHandler = (e) => {
     setPost(e.target.value);
@@ -78,7 +80,7 @@ export const MyPostWidget = ({ userId, picturePath }) => {
             variant="outlined"
             sx={{
               width: "100%",
-              color: "#000000",
+              color: theme.palette.text.primary,
             }}
             multiline={true}
             rows={3}
@@ -123,7 +125,7 @@ export const MyPostWidget = ({ userId, picturePath }) => {
                 >
                   <input {...getInputProps()} />
                   {!image ? (
-                    <p>
+                    <p style={{ color: theme.palette.text.primary }}>
                       Drag and drop some files here, or click to select files
                     </p>
                   ) : (
@@ -132,7 +134,9 @@ export const MyPostWidget = ({ userId, picturePath }) => {
                       justifyContent="space-between"
                       alignItems="center"
                     >
-                      <Typography>{image.name}</Typography>
+                      <Typography sx={{ color: theme.palette.text.primary }}>
+                        {image.name}
+                      </Typography>
                       <EditOutlinedIcon />
                     </Box>
                   )}
@@ -149,7 +153,7 @@ export const MyPostWidget = ({ userId, picturePath }) => {
         <FlexBetween mt="3px">
           <FlexBetween>
             <IconButton
-              sx={{ color: "#000000" }}
+              sx={{ color: theme.palette.text.icon }}
               onClick={() => {
                 if (isImage) {
                   setIsImage(false);
@@ -161,12 +165,15 @@ export const MyPostWidget = ({ userId, picturePath }) => {
               <ImageOutlinedIcon></ImageOutlinedIcon>
             </IconButton>
 
-            <Typography>Image</Typography>
+            <Typography sx={{ color: theme.palette.text.primary }}>
+              Image
+            </Typography>
           </FlexBetween>
           <Button
             variant="outlined"
             onClick={handlePost}
             disabled={!(post || image)}
+            sx={{ color: theme.palette.text.primary }}
           >
             Post
           </Button>

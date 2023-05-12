@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import Moment from "react-moment";
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
@@ -12,6 +13,8 @@ export const ContentDetails = ({
   edited,
   size = "50px",
 }) => {
+  const theme = useTheme();
+
   return (
     <FlexBetween>
       <FlexBetween gap="0.5rem">
@@ -23,16 +26,25 @@ export const ContentDetails = ({
             navigate(0);
           }}*/
         >
-          <Typography variant="h7" sx={{ cursor: "pointer" }}>
+          <Typography
+            variant="h7"
+            color={theme.palette.text.primary}
+            sx={{ cursor: "pointer" }}
+          >
             {name}
           </Typography>
           <Box display="flex" alignContent="center">
-            <Typography fontSize="0.75rem">
+            <Typography fontSize="0.75rem" color={theme.palette.text.primary}>
               {createdAt && <Moment fromNow>{createdAt}</Moment>}
             </Typography>
 
             {edited && (
-              <Typography fontSize="12px" pl="4px" sx={{ fontStyle: "italic" }}>
+              <Typography
+                fontSize="12px"
+                pl="4px"
+                color={theme.palette.text.primary}
+                sx={{ fontStyle: "italic" }}
+              >
                 (Edited)
               </Typography>
             )}

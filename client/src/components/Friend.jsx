@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { setFriendFriends, setFriends } from "../store/authSlice";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
 
 export const Friend = ({
   friendId,
@@ -28,6 +29,7 @@ export const Friend = ({
   const isFriend = userFriends.find((friend) => friend._id === friendId);
 
   const { userId } = useParams();
+  const theme = useTheme();
 
   const patchFriend = async () => {
     //console.log("!!! ", userId, "   ", friendId);
@@ -61,15 +63,26 @@ export const Friend = ({
             navigate(0);
           }}
         >
-          <Typography variant="h7" sx={{ cursor: "pointer" }}>
+          <Typography
+            variant="h7"
+            sx={{ cursor: "pointer", color: theme.palette.text.primary }}
+          >
             {name}
           </Typography>
 
           {occupation ? (
-            <Typography fontSize="12px">{occupation}</Typography>
+            <Typography
+              fontSize="12px"
+              sx={{ color: theme.palette.text.primary }}
+            >
+              {occupation}
+            </Typography>
           ) : (
             <Box display="flex" alignContent="center">
-              <Typography fontSize="0.75rem">
+              <Typography
+                fontSize="0.75rem"
+                sx={{ color: theme.palette.text.primary }}
+              >
                 <Moment fromNow>{createdAt}</Moment>
               </Typography>
 
@@ -77,7 +90,10 @@ export const Friend = ({
                 <Typography
                   fontSize="12px"
                   pl="4px"
-                  sx={{ fontStyle: "italic" }}
+                  sx={{
+                    fontStyle: "italic",
+                    color: theme.palette.text.primary,
+                  }}
                 >
                   (Edited)
                 </Typography>
@@ -87,7 +103,10 @@ export const Friend = ({
         </Box>
       </FlexBetween>
       {friendId !== _id ? (
-        <IconButton sx={{ color: "#000000" }} onClick={() => patchFriend()}>
+        <IconButton
+          sx={{ color: theme.palette.text.icon }}
+          onClick={() => patchFriend()}
+        >
           {isFriend ? (
             <PersonRemoveOutlinedIcon></PersonRemoveOutlinedIcon>
           ) : (

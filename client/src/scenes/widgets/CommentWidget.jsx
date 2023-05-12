@@ -91,13 +91,13 @@ export const CommentWidget = (props) => {
   };
 
   let style = {
-    backgroundColor: "#dcddde",
+    backgroundColor: theme.palette.background.alt,
     borderRadius: 1.5,
     mb: "1rem",
   };
 
   if (depth % 2 === 1) {
-    style.backgroundColor = "#ffffff";
+    style.backgroundColor = theme.palette.background.default;
   }
   return (
     comment && (
@@ -118,7 +118,7 @@ export const CommentWidget = (props) => {
                   edited={comment.edited}
                 ></ContentDetails>
                 <IconButton
-                  sx={{ color: "#000000" }}
+                  sx={{ color: theme.palette.text.icon }}
                   onClick={() => setMinimised(!minimised)}
                 >
                   {minimised ? (
@@ -131,7 +131,7 @@ export const CommentWidget = (props) => {
 
               <FlexBetween gap="0.5rem">
                 <IconButton
-                  sx={{ color: "#000000" }}
+                  sx={{ color: theme.palette.text.icon }}
                   size="small"
                   onClick={() => {
                     setReplying(!replying);
@@ -147,7 +147,7 @@ export const CommentWidget = (props) => {
                 {userId === comment.commenter._id && (
                   <>
                     <IconButton
-                      sx={{ color: "#000000" }}
+                      sx={{ color: theme.palette.text.icon }}
                       onClick={() => {
                         setEditing(!editing);
                         setReplying(false);
@@ -160,7 +160,7 @@ export const CommentWidget = (props) => {
                       )}
                     </IconButton>
                     <IconButton
-                      sx={{ color: "#000000" }}
+                      sx={{ color: theme.palette.text.icon }}
                       onClick={handleDelete}
                     >
                       <DeleteOutlinedIcon></DeleteOutlinedIcon>
@@ -174,7 +174,9 @@ export const CommentWidget = (props) => {
               sx={{ wordBreak: "break-word", boxSizing: "border-box", mt: 1 }}
             >
               {!editing ? (
-                <Typography>{comment.content} </Typography>
+                <Typography sx={{ color: theme.palette.text.primary }}>
+                  {comment.content}
+                </Typography>
               ) : (
                 <ContentUpdateEditor
                   originalContent={comment.content}

@@ -263,7 +263,7 @@ const FormUser = ({ update = false, user = null, onClose }) => {
                       <Box display="flex">
                         <IconButton
                           sx={{ color: "#000000" }}
-                          onClick={() => setFieldValue("picture", "")}
+                          onClick={() => setFieldValue("picturePath", "")}
                         >
                           <ClearOutlinedIcon />
                         </IconButton>

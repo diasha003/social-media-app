@@ -1,9 +1,10 @@
 import { Button, Card, Stack, TextField, Typography, Box } from "@mui/material";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import axios from "axios";
-import FlexBetween from "../../components/FlexBetween";
+
+import { useTheme } from "@mui/material/styles";
 
 export const CommentEditor = ({
   postId,
@@ -25,12 +26,15 @@ export const CommentEditor = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const theme = useTheme();
+  console.log(theme);
+
   let style = {
-    backgroundColor: "#dcddde",
+    backgroundColor: theme.palette.background.alt,
   };
 
   if (depth % 2 === 1) {
-    style.backgroundColor = "#ffffff";
+    style.backgroundColor = theme.palette.background.default;
   }
 
   const handleSubmit = async (e) => {
@@ -67,7 +71,10 @@ export const CommentEditor = ({
   return (
     <Card
       sx={{
-        backgroundColor: depth % 2 === 0 ? "#dcddde" : "#ffffff",
+        backgroundColor:
+          depth % 2 === 0
+            ? theme.palette.background.alt
+            : theme.palette.background.default,
         boxShadow: "none",
       }}
     >
@@ -83,8 +90,12 @@ export const CommentEditor = ({
             onChange={handleChange}
             value={formData.content}
             sx={{
-              backgroundColor: depth % 2 === 0 ? "#dcddde" : "#ffffff",
               px: "3px",
+              color: theme.palette.text.primary,
+              backgroundColor:
+                depth % 2 === 0
+                  ? theme.palette.background.alt
+                  : theme.palette.background.primary,
             }}
           />
 
@@ -92,7 +103,10 @@ export const CommentEditor = ({
             variant="outlined"
             type="submit"
             sx={{
-              backgroundColor: depth % 2 === 0 ? "#dcddde" : "#ffffff",
+              backgroundColor:
+                depth % 2 === 0
+                  ? theme.palette.background.alt
+                  : theme.palette.background.default,
               m: "3px auto",
               display: "block",
             }}

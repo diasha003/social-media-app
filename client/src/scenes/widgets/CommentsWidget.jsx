@@ -1,5 +1,5 @@
 import { Stack, Typography, Box } from "@mui/material";
-
+import { useTheme } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
 import { CommentEditor } from "./CommentEditor";
 import { CommentWidget } from "./CommentWidget";
@@ -10,6 +10,8 @@ export const CommentsWidget = ({ postId }) => {
   const [comments, setComments] = useState([]);
   const token = useSelector((state) => state.token);
   const [rerender, setRerender] = useState(false);
+
+  const theme = useTheme();
 
   useEffect(() => {
     getAllComments();
@@ -130,10 +132,10 @@ export const CommentsWidget = ({ postId }) => {
           paddingY={3}
         >
           <Box>
-            <Typography variant="h6" color="text.secondary">
+            <Typography variant="h6" color={theme.palette.text.primary}>
               No comments yet...
             </Typography>
-            <Typography color="text.secondary">
+            <Typography color={theme.palette.text.primary}>
               Be the first one to comment!
             </Typography>
           </Box>

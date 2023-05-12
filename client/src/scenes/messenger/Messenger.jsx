@@ -1,4 +1,5 @@
 import { Box, Container, Grid } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { useSelector } from "react-redux";
 import { UserMessengerEntries } from "../widgets/UserMessengerEntries";
 import { Messages } from "../widgets/Messages";
@@ -12,6 +13,8 @@ const Messenger = () => {
   const [conversations, setConversations] = useState([]);
   const { state } = useLocation();
   const newConservant = state && state.user;
+
+  const theme = useTheme();
 
   //console.log(state);
 
@@ -36,7 +39,7 @@ const Messenger = () => {
     );
     let conversations = result.data;
 
-    console.log(conversations);
+    //console.log(conversations);
 
     if (newConservant) {
       setСonversant(newConservant);
@@ -60,42 +63,54 @@ const Messenger = () => {
   }, []);
 
   return (
-    <Container sx={{ padding: "2rem 3%" }}>
-      <Box>
-        <Grid container justifyContent="center" alignItems="stretch">
-          <Grid
-            item
-            xs={4}
-            sx={{
-              backgroundColor: "#eaeaea",
-              height: "100%",
-            }}
-          >
-            <UserMessengerEntries
-              conversant={conversant}
-              conversations={conversations}
-              setСonversant={setСonversant}
-            ></UserMessengerEntries>
+    <Box
+      width="100%"
+      height="calc(100vh - 65px)"
+      sx={{
+        backgroundColor: theme.palette.background.default,
+      }}
+    >
+      <Container
+        sx={{
+          padding: "2rem 3%",
+        }}
+      >
+        <Box>
+          <Grid container justifyContent="center" alignItems="stretch">
+            <Grid
+              item
+              xs={4}
+              sx={{
+                backgroundColor: "#eaeaea",
+                height: "100%",
+              }}
+            >
+              <UserMessengerEntries
+                conversant={conversant}
+                conversations={conversations}
+                setСonversant={setСonversant}
+              ></UserMessengerEntries>
+            </Grid>
+            <Grid
+              item
+              xs={7}
+              sx={{
+                backgroundColor: "#eaeaea",
+                height: "100%",
+              }}
+            >
+              <Messages
+                conversant={conversant}
+                conversations={conversations}
+                setСonversant={setСonversant}
+                setConversations={setConversations}
+                getConversation={getConversation}
+              ></Messages>
+            </Grid>
           </Grid>
-          <Grid
-            item
-            xs={7}
-            sx={{
-              backgroundColor: "#eaeaea",
-              height: "100%",
-            }}
-          >
-            <Messages
-              conversant={conversant}
-              conversations={conversations}
-              setСonversant={setСonversant}
-              setConversations={setConversations}
-              getConversation={getConversation}
-            ></Messages>
-          </Grid>
-        </Grid>
-      </Box>
-    </Container>
+        </Box>
+      </Container>
+    </Box>
   );
 };
 

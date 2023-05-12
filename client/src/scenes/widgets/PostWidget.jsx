@@ -6,6 +6,7 @@ import {
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Box, CardMedia, IconButton, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import WidgetWrapper from "../../components/WidgetWrapper";
 import { Friend } from "../../components/Friend";
 import axios from "axios";
@@ -37,6 +38,7 @@ export const PostWidget = ({
   const isLiked = Boolean(likes[loggedInUserId]);
   const countLikes = Object.keys(likes).length;
   const loggedInUser = useSelector((state) => state.user._id);
+  const theme = useTheme();
 
   const [selectedPost, setSelectedPost] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -96,7 +98,13 @@ export const PostWidget = ({
         userPicturePath={userPicturePath}
         editing={editing}
       ></Friend>
-      <Typography sx={{ mb: "10px", wordBreak: "break-word" }}>
+      <Typography
+        sx={{
+          mb: "10px",
+          wordBreak: "break-word",
+          color: theme.palette.text.primary,
+        }}
+      >
         {description}
       </Typography>
 
@@ -113,7 +121,10 @@ export const PostWidget = ({
       <FlexBetween sx={{ mt: "3px" }}>
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
-            <IconButton sx={{ color: "#000000" }} onClick={patchLike}>
+            <IconButton
+              sx={{ color: theme.palette.text.icon }}
+              onClick={patchLike}
+            >
               {!isLiked ? (
                 <FavoriteBorderOutlined></FavoriteBorderOutlined>
               ) : (
@@ -124,7 +135,7 @@ export const PostWidget = ({
           </FlexBetween>
           <FlexBetween gap="0.3rem">
             <IconButton
-              sx={{ color: "#000000" }}
+              sx={{ color: theme.palette.text.icon }}
               onClick={() => setIsComments(!isComments)}
             >
               <ChatBubbleOutlineOutlined></ChatBubbleOutlineOutlined>
@@ -135,12 +146,15 @@ export const PostWidget = ({
         {postUserId === loggedInUser ? (
           <FlexBetween gap="1rem">
             <IconButton
-              sx={{ color: "#000000" }}
+              sx={{ color: theme.palette.text.icon }}
               onClick={() => handleEditClick(description, picturePath, _id)}
             >
               <EditOutlinedIcon></EditOutlinedIcon>
             </IconButton>
-            <IconButton sx={{ color: "#000000" }} onClick={deletePost}>
+            <IconButton
+              sx={{ color: theme.palette.text.icon }}
+              onClick={deletePost}
+            >
               <DeleteOutlineOutlinedIcon></DeleteOutlineOutlinedIcon>
             </IconButton>
           </FlexBetween>

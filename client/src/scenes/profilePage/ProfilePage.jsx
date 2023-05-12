@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { UserWidget } from "../widgets/UserWidget";
 import { PostsWidget } from "../widgets/PostsWidget";
 import { FriendListWidget } from "../widgets/FriendListWidget";
@@ -11,6 +12,8 @@ export const ProfilePage = () => {
 
   const { userId } = useParams();
   const token = useSelector((state) => state.token);
+
+  const theme = useTheme();
 
   const getUser = async () => {
     const result = await axios.patch(
@@ -32,7 +35,7 @@ export const ProfilePage = () => {
 
   if (!user) return null;
   return (
-    <Box>
+    <Box sx={{ backgroundColor: theme.palette.background.default }}>
       <Box
         width="100%"
         padding="2rem 6%"

@@ -30,11 +30,27 @@ export const CssTextField = withStyles({
 export const lightTheme = createTheme({
   palette: {
     mode: "light",
+    text: {
+      icon: "#000000",
+    },
+    background: {
+      default: "#ffffff",
+      alt: "#dcdedf",
+      navbar: "#edeeef",
+    },
   },
 });
 
 export const darkTheme = createTheme({
   palette: {
     mode: "dark",
+    text: {
+      icon: "#ffffff",
+    },
+    background: {
+      default: "#000000",
+      alt: "#404040",
+      navbar: "#707070",
+    },
   },
 });

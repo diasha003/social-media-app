@@ -12,6 +12,7 @@ import {
   WorkOutlineOutlined,
   LinkedInOutlined,
 } from "@mui/icons-material";
+import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -35,6 +36,8 @@ export const UserWidget = ({ userId, picturePath, isProfile = false }) => {
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const theme = useTheme();
 
   const handleEditClick = () => {
     setSelectedUser({ userId });
@@ -81,22 +84,27 @@ export const UserWidget = ({ userId, picturePath, isProfile = false }) => {
           <Box>
             <Typography
               variant="h6"
-              sx={{
-                fontWeight: 700,
-                color: "black",
-              }}
+              sx={{ fontWeight: 700, color: theme.palette.text.primary }}
             >
               {firstName} {lastName}
             </Typography>
-            <Typography color="#00353F">{countFriends} friends</Typography>
+            <Typography sx={{ color: theme.palette.text.primary }}>
+              {countFriends} friends
+            </Typography>
           </Box>
         </FlexBetween>
         {userId === userIdLogin ? (
-          <IconButton sx={{ color: "#000000" }} onClick={handleEditClick}>
+          <IconButton
+            sx={{ color: theme.palette.text.icon }}
+            onClick={handleEditClick}
+          >
             <ManageAccountsOutlined />
           </IconButton>
         ) : (
-          <IconButton sx={{ color: "#000000" }} onClick={handleMessage}>
+          <IconButton
+            sx={{ color: theme.palette.text.icon }}
+            onClick={handleMessage}
+          >
             <MapsUgcOutlinedIcon />
           </IconButton>
         )}
@@ -106,12 +114,22 @@ export const UserWidget = ({ userId, picturePath, isProfile = false }) => {
 
       <Box py="1rem">
         <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
-          <LocationOnOutlined fontSize="medium" />
-          <Typography>{location}</Typography>
+          <LocationOnOutlined
+            fontSize="medium"
+            sx={{ color: theme.palette.text.icon }}
+          />
+          <Typography sx={{ color: theme.palette.text.primary }}>
+            {location}
+          </Typography>
         </Box>
         <Box display="flex" alignItems="center" gap="1rem">
-          <WorkOutlineOutlined fontSize="medium"></WorkOutlineOutlined>
-          <Typography>{occupation}</Typography>
+          <WorkOutlineOutlined
+            fontSize="medium"
+            sx={{ color: theme.palette.text.icon }}
+          ></WorkOutlineOutlined>
+          <Typography sx={{ color: theme.palette.text.primary }}>
+            {occupation}
+          </Typography>
         </Box>
       </Box>
 
@@ -119,22 +137,37 @@ export const UserWidget = ({ userId, picturePath, isProfile = false }) => {
 
       <Box py="1rem">
         <FlexBetween gap="1rem" mb="0.5rem">
-          <Typography color="#00353F">Who's viewed your profile</Typography>
-          <Typography color="#00353F" fontWeight="600">
+          <Typography sx={{ color: theme.palette.text.primary }}>
+            Who's viewed your profile
+          </Typography>
+          <Typography
+            sx={{ color: theme.palette.text.primary }}
+            fontWeight="600"
+          >
             {viewedProfile}
           </Typography>
         </FlexBetween>
         <FlexBetween gap="1rem">
-          <Typography color="#00353F">Impressions of your post</Typography>
-          <Typography color="#00353F" fontWeight="600">
+          <Typography sx={{ color: theme.palette.text.primary }}>
+            Impressions of your post
+          </Typography>
+          <Typography
+            sx={{ color: theme.palette.text.primary }}
+            fontWeight="600"
+          >
             {countLike}
           </Typography>
         </FlexBetween>
       </Box>
 
-      <Divider></Divider>
+      {selectedUser && (
+        <EditUser user={user} isOpen={isModalOpen} onClose={handleModalClose} />
+      )}
+    </WidgetWrapper>
+  );
+};
 
-      <Box p="1rem 0">
+/*Box p="1rem 0">
         <Typography fontSize="1rem" fontWeight="500" mb="1rem">
           Social Profiles
         </Typography>
@@ -168,11 +201,4 @@ export const UserWidget = ({ userId, picturePath, isProfile = false }) => {
             <EditOutlined />
           </IconButton>
         </FlexBetween>
-      </Box>
-
-      {selectedUser && (
-        <EditUser user={user} isOpen={isModalOpen} onClose={handleModalClose} />
-      )}
-    </WidgetWrapper>
-  );
-};
+      </Box>*/

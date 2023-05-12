@@ -1,4 +1,5 @@
 import { Box, Divider, Stack, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import UserImage from "../../components/UserImage";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../../helpers/socketHelper";
@@ -13,6 +14,8 @@ export const Messages = (props) => {
   const token = useSelector((state) => state.token);
   const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
+
+  const theme = useTheme();
 
   //console.log(props);
 
@@ -161,7 +164,12 @@ export const Messages = (props) => {
   };
 
   return props.conversant ? (
-    <Box display="flex" flexDirection="column" sx={style} className="scroll">
+    <Box
+      display="flex"
+      flexDirection="column"
+      sx={{ ...style, backgroundColor: theme.palette.background.alt }}
+      className="scroll"
+    >
       {messages ? (
         <>
           <Box display="flex" alignItems="center" gap="0.3rem" sx={{ p: 1 }}>
@@ -172,7 +180,11 @@ export const Messages = (props) => {
                 navigate(0);
               }}
             >
-              <Typography variant="subtitle1" sx={{ cursor: "pointer" }}>
+              <Typography
+                variant="subtitle1"
+                color={theme.palette.text.primary}
+                sx={{ cursor: "pointer" }}
+              >
                 {props.conversant.firstName} {props.conversant.lastName}
               </Typography>
             </Box>
@@ -208,10 +220,16 @@ export const Messages = (props) => {
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      sx={{ ...style, height: "calc(100vh - 177px)" }}
+      sx={{
+        ...style,
+        height: "calc(100vh - 177px)",
+        backgroundColor: theme.palette.background.alt,
+      }}
     >
-      <Typography variant="h5">Connectify Messenger</Typography>
-      <Typography color="text.secondary">
+      <Typography variant="h5" color={theme.palette.text.primary}>
+        Connectify Messenger
+      </Typography>
+      <Typography color={theme.palette.text.primary}>
         Privately message other users on Connectify
       </Typography>
     </Box>
