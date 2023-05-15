@@ -56,7 +56,6 @@ export const CommentsWidget = ({ postId }) => {
   };
 
   const removeComment = (removedComment) => {
-    //console.log(removedComment);
     if (removedComment.parent) {
       const parentComment = findComment(removedComment.parent);
       parentComment.children = parentComment.children.filter(

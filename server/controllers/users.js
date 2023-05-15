@@ -11,11 +11,9 @@ export const getUser = async (req, res) => {
       userId: id,
     });
 
-    //console.log(posts);
     let likeCount = 0;
 
     posts.map((post) => {
-      //console.log(post.likes.size);
       likeCount += post.likes.size;
     });
 
@@ -33,7 +31,7 @@ export const getUser = async (req, res) => {
 export const getUserFriends = async (req, res) => {
   try {
     const { _id } = req.params;
-    //console.log(req.params);
+
     const user = await User.findById(_id);
     const friends = await Promise.all(
       user.friends.map((id) => User.findById(id))
@@ -45,8 +43,6 @@ export const getUserFriends = async (req, res) => {
       }
     );
 
-    //console.log(formattedFriends);
-
     res.status(200).json(formattedFriends);
   } catch (err) {
     res.status(404).json({ error: err.message });
@@ -55,7 +51,6 @@ export const getUserFriends = async (req, res) => {
 
 export const addRemoveFriend = async (req, res) => {
   try {
-    //console.log(req.body);
     const { _id, friendId } = req.params;
     const user = await User.findById(_id);
     const friend = await User.findById(friendId);
@@ -91,8 +86,6 @@ export const addRemoveFriend = async (req, res) => {
       }
     );
 
-    //console.log({ formattedFriends, formattedFriendFriends });
-
     res.status(200).json({ formattedFriends, formattedFriendFriends });
   } catch (err) {
     res.status(404).json({ error: err.message });
@@ -101,8 +94,6 @@ export const addRemoveFriend = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    // console.log(req.body);
-
     let {
       firstName,
       lastName,
@@ -184,8 +175,6 @@ export const updateViewedUser = async (req, res) => {
       throw new Error("User does not exist");
     }
 
-    console.log(user);
-
     const updateUser = await User.findByIdAndUpdate(
       id,
       { viewedProfile: user.viewedProfile + 1 },
@@ -201,15 +190,12 @@ export const updateViewedUser = async (req, res) => {
 export const getAllFriends = async (req, res) => {
   try {
     const user = await User.find();
-    //console.log(user);
 
     const formattedFriends = user.map(
       ({ _id, firstName, lastName, occupation, location, picturePath }) => {
         return { _id, firstName, lastName, occupation, location, picturePath };
       }
     );
-
-    //console.log(formattedFriends);
 
     res.status(200).json(formattedFriends);
   } catch (err) {

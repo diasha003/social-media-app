@@ -8,9 +8,6 @@ export const sendMessage = async (req, res) => {
     const recipientId = req.params.id;
     const { content, userId } = req.body;
 
-    //console.log(req.params);
-    //console.log(req.body);
-
     let conversation = await Conversation.findOne({
       recipients: {
         $all: [userId, recipientId],
@@ -41,7 +38,6 @@ export const sendMessage = async (req, res) => {
 export const getConversations = async (req, res) => {
   try {
     const { userId } = req.user;
-    //console.log(req.user.userId);
 
     let conversations = await Conversation.find({
       recipients: {
@@ -51,23 +47,19 @@ export const getConversations = async (req, res) => {
 
     let conversationsNew = await Promise.all(
       conversations.map(async (conversation) => {
-        //console.log(_id);
         const conversationCurrent = await Conversation.findById(
           conversation._id
         );
         const recipientIds = conversationCurrent.recipients;
-        //console.log(recipientIds);
+
         for (let j = 0; j < 2; j++) {
           if (recipientIds[j] != userId) {
             const recipient = await User.find({ _id: recipientIds[j] });
-            //console.log(recipient[0]);
             return { ...conversation.toObject(), recipient: recipient[0] };
           }
         }
       })
     );
-
-    //console.log(conversationsNew);
 
     res.status(200).json(conversationsNew);
   } catch (err) {
@@ -78,7 +70,6 @@ export const getConversations = async (req, res) => {
 export const getMessages = async (req, res) => {
   try {
     const conversationId = req.params.id;
-    //const conversationId = "6458c090f4c303fc175250ec";
 
     const messages = await Message.find({
       conversation: conversationId,

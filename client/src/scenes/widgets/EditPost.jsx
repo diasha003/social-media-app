@@ -29,7 +29,8 @@ const style = {
 
 export const EditPost = ({ post, isOpen, onClose }) => {
   const dispatch = useDispatch();
-  const [image, setImage] = useState(post.picturePath);
+  const [image, setImage] = useState({ name: post.picturePath });
+
   const token = useSelector((state) => state.token);
   const [description, setDescription] = useState(post.description);
 
@@ -38,9 +39,18 @@ export const EditPost = ({ post, isOpen, onClose }) => {
   };
 
   const update = async () => {
+    if (!image && !description) {
+      alert("Fill in at least one field");
+      return;
+    }
+
+    let formData = new FormData();
+    formData.append("description", description);
+    formData.append("picturePath", image.name);
+    formData.append("picture", image);
     const response = await axios.patch(
       `http://localhost:3001/posts/${post._id}`,
-      { image, description },
+      formData,
       {
         headers: {
           Authorization: "Bearer " + token,
@@ -48,7 +58,6 @@ export const EditPost = ({ post, isOpen, onClose }) => {
       }
     );
 
-    //console.log(response.data);
     dispatch(setPost({ post: response.data }));
     onClose();
   };
@@ -96,8 +105,7 @@ export const EditPost = ({ post, isOpen, onClose }) => {
                   ) {
                     alert("Only .jpg, .jpeg or .png");
                   } else {
-                    //console.log(acceptedFiles[0].name);
-                    setImage(acceptedFiles[0].name);
+                    setImage(acceptedFiles[0]);
                   }
                 }}
               >
@@ -128,7 +136,7 @@ export const EditPost = ({ post, isOpen, onClose }) => {
                             justifyContent="space-between"
                             alignItems="center"
                           >
-                            <Typography>{image}</Typography>
+                            <Typography>{image.name}</Typography>
                             <IconButton sx={{ color: "#000000" }}>
                               <EditOutlinedIcon />
                             </IconButton>

@@ -1,5 +1,6 @@
 import Post from "../models/Post.js";
 import User from "../models/User.js";
+import Comment from "../models/Comment.js";
 
 export const createPost = async (req, res) => {
   try {
@@ -45,12 +46,9 @@ export const getUserPosts = async (req, res) => {
 
 export const likePost = async (req, res) => {
   try {
-    //console.log(req.params, req.body);
     const { _id } = req.params;
     const { loggedInUserId } = req.body;
     const post = await Post.findById(_id);
-
-    // console.log( req.body);
 
     const isLikes = post.likes.get(loggedInUserId);
 
@@ -65,7 +63,7 @@ export const likePost = async (req, res) => {
       { likes: post.likes },
       { new: true }
     );
-    console.log(updatePost);
+
     res.status(200).json(updatePost);
   } catch (err) {
     res.status(404).json({ error: err.message });
@@ -74,14 +72,13 @@ export const likePost = async (req, res) => {
 
 export const updatePost = async (req, res) => {
   try {
-    console.log(req.body);
-    //console.log(req.params);
     const { _id } = req.params;
 
+    //console.log(req.body);
     const updatePost = await Post.findByIdAndUpdate(
       _id,
       {
-        picturePath: req.body.image,
+        picturePath: req.body.picturePath,
         description: req.body.description,
         editing: true,
       },
@@ -96,10 +93,18 @@ export const updatePost = async (req, res) => {
 
 export const deletePost = async (req, res) => {
   try {
-    //console.log(req.params);
     const { _id } = req.params;
 
+    const findComments = await Comment.find({ post: _id });
     const deletePostResult = await Post.deleteOne({ _id: _id });
+
+    //console.log(findComments);
+
+    await Comment.deleteMany({
+      _id: {
+        $in: findComments.map((comment) => comment._id),
+      },
+    });
 
     const allPosts = await Post.find().sort({ createdAt: -1 });
 

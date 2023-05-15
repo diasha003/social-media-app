@@ -51,7 +51,7 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
 
   return (
     <>
-      {filteredPosts.length !== 0
+      {filteredPosts && filteredPosts.length !== 0
         ? filteredPosts.map(
             ({
               _id,

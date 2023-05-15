@@ -4,6 +4,8 @@ import React from "react";
 import Dropzone from "react-dropzone";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
+import { useTheme } from "@mui/material/styles";
+
 import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
 import axios from "axios";
@@ -15,6 +17,7 @@ const FormUser = ({ update = false, user = null, onClose }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
+  const theme = useTheme();
 
   const registerSchema = yup.object().shape({
     firstName: yup
@@ -105,7 +108,6 @@ const FormUser = ({ update = false, user = null, onClose }) => {
         formData.append(value, values[value]);
       }
 
-      console.log(formData);
       const result = await axios.patch(
         `http://localhost:3001/users/${user._id}`,
         formData,
@@ -238,7 +240,7 @@ const FormUser = ({ update = false, user = null, onClose }) => {
                     >
                       <input {...getInputProps()} />
                       {!values.picturePath ? (
-                        <p>
+                        <p style={{ color: theme.palette.text.primary }}>
                           Drag and drop some files here, or click to select
                           files
                         </p>
@@ -249,8 +251,10 @@ const FormUser = ({ update = false, user = null, onClose }) => {
                             justifyContent="space-between"
                             alignItems="center"
                           >
-                            <Typography>{values.picturePath}</Typography>
-                            <IconButton sx={{ color: "#000000" }}>
+                            <Typography color="text.secondary">
+                              {values.picturePath}
+                            </Typography>
+                            <IconButton sx={{ color: theme.palette.text.icon }}>
                               <EditOutlinedIcon />
                             </IconButton>
                           </Box>
@@ -262,7 +266,7 @@ const FormUser = ({ update = false, user = null, onClose }) => {
                     ) : (
                       <Box display="flex">
                         <IconButton
-                          sx={{ color: "#000000" }}
+                          sx={{ color: theme.palette.text.icon }}
                           onClick={() => setFieldValue("picturePath", "")}
                         >
                           <ClearOutlinedIcon />

@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import path from "path";
 import { register } from "./controllers/auth.js";
-import { createPost } from "./controllers/post.js";
+import { createPost, updatePost } from "./controllers/post.js";
 import fileMiddleware from "./middleware/file.js";
 import authRoutes from "./routes/auth.js";
 import usersRoutes from "./routes/users.js";
@@ -50,6 +50,12 @@ app.patch(
   verifyToken,
   fileMiddleware.single("picture"),
   updateUser
+);
+app.patch(
+  "/posts/:_id",
+  verifyToken,
+  fileMiddleware.single("picture"),
+  updatePost
 );
 
 app.use("/auth", authRoutes);

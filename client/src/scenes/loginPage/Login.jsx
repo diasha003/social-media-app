@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { withStyles } from "@mui/styles";
+import { useTheme } from "@mui/material/styles";
 import { Formik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
@@ -34,6 +34,7 @@ const loginShema = yup.object().shape({
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const theme = useTheme();
   const funcLogin = async (values, onSubmitProps) => {
     try {
       const loggedInResponse = await axios.post(
@@ -63,73 +64,99 @@ const Login = () => {
   };
 
   return (
-    <Container maxWidth={"xs"} sx={{ mt: 10, background: "#e8efe6" }}>
-      <Stack alignItems="center">
-        <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-          Login
-        </Typography>
-        <Typography color="text.secondary" sx={{ mb: "8px" }}>
-          Don't have an account yet? <Link to="/signup">Sign Up</Link>
-        </Typography>
-        <Formik
-          initialValues={initialValuesLogin}
-          validationSchema={loginShema}
-          onSubmit={funcLogin}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleBlur,
-            handleChange,
-            handleSubmit,
-            resetForm,
-          }) => (
-            <form onSubmit={handleSubmit}>
-              <Box textAlign="center">
-                <CssTextField
-                  fullWidth
-                  margin="normal"
-                  label="Email Address"
-                  name="email"
-                  type="email"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  error={Boolean(touched.email) && Boolean(errors.email)}
-                  helperText={touched.email && errors.email}
-                />
-                <CssTextField
-                  label="Password"
-                  name="password"
-                  type="password"
-                  fullWidth
-                  margin="normal"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  error={Boolean(touched.password) && Boolean(errors.password)}
-                  helperText={touched.password && errors.password}
-                />
+    <Box
+      sx={{
+        minHeight: "100vh",
+        paddingTop: "64px",
+        backgroundColor: theme.palette.background.default,
+      }}
+    >
+      <Container
+        maxWidth={"xs"}
+        sx={{
+          mt: 10,
+          position: "relative",
+          zIndex: 1,
+          background: theme.palette.background.alt,
+        }}
+      >
+        <Stack alignItems="center">
+          <Typography
+            variant="h6"
+            gutterBottom
+            sx={{ mt: 2 }}
+            color={theme.palette.text.primary}
+          >
+            Login
+          </Typography>
+          <Typography color="text.secondary" sx={{ mb: "8px" }}>
+            Don't have an account yet?{" "}
+            <Link to="/signup" style={{ color: theme.palette.text.primary }}>
+              Sign Up
+            </Link>
+          </Typography>
+          <Formik
+            initialValues={initialValuesLogin}
+            validationSchema={loginShema}
+            onSubmit={funcLogin}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleBlur,
+              handleChange,
+              handleSubmit,
+              resetForm,
+            }) => (
+              <form onSubmit={handleSubmit}>
+                <Box textAlign="center">
+                  <CssTextField
+                    fullWidth
+                    margin="normal"
+                    label="Email Address"
+                    name="email"
+                    type="email"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    error={Boolean(touched.email) && Boolean(errors.email)}
+                    helperText={touched.email && errors.email}
+                  />
+                  <CssTextField
+                    label="Password"
+                    name="password"
+                    type="password"
+                    fullWidth
+                    margin="normal"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    error={
+                      Boolean(touched.password) && Boolean(errors.password)
+                    }
+                    helperText={touched.password && errors.password}
+                  />
 
-                <Button
-                  type="submit"
-                  variant="contained"
-                  sx={{
-                    marginBottom: "8px",
-                    color: "#000000",
-                    backgroundColor: "#5bc2bb",
-                    "&:hover": {
-                      backgroundColor: "#21b6ae",
-                    },
-                  }}
-                >
-                  Login
-                </Button>
-              </Box>
-            </form>
-          )}
-        </Formik>
-      </Stack>
-    </Container>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{
+                      marginBottom: "8px",
+                      color: "#000000",
+                      backgroundColor: "#5bc2bb",
+                      "&:hover": {
+                        backgroundColor: "#21b6ae",
+                      },
+                    }}
+                  >
+                    Login
+                  </Button>
+                </Box>
+              </form>
+            )}
+          </Formik>
+        </Stack>
+      </Container>
+    </Box>
   );
 };
 

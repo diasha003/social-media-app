@@ -32,7 +32,7 @@ export const Friend = ({
   const theme = useTheme();
 
   const patchFriend = async () => {
-    //console.log("!!! ", userId, "   ", friendId);
+    console.log("!!! ", userId, "   ", friendId);
     const res = await axios.patch(
       `http://localhost:3001/users/${_id}/${friendId}`,
       { friendId: friendId },

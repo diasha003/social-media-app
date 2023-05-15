@@ -4,7 +4,6 @@ import User from "../models/User.js";
 
 export const register = async (req, res) => {
   try {
-    console.log(req.body);
     const saltRounds = 7;
     const salt = bcrypt.genSaltSync(saltRounds);
     const hash = bcrypt.hashSync(req.body.password, salt);
@@ -27,12 +26,6 @@ export const register = async (req, res) => {
 
     const savedUser = await newUser.save();
 
-    /*const token = jwt.sign(
-      { userId: savedUser._id, isAdmin: savedUser.isAdmin },
-      process.env.TOKEN_KEY
-    );*/
-
-    //res.status(201).json({ ...savedUser, token: `${token}` });
     res.status(201).json(savedUser);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -54,8 +47,6 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    //console.log(user);
-
     const token = jwt.sign(
       {
         userId: user._id,
@@ -68,13 +59,10 @@ export const login = async (req, res) => {
     );
 
     delete user._doc.password;
-    //console.log(user);
     res.status(201).json({ ...user, token: `${token}` });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-export const info = (req, res) => {
-  //console.log(req.user);
-};
+export const info = (req, res) => {};

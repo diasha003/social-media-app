@@ -18,10 +18,9 @@ export const authSocket = (socket, next) => {
 };
 
 export const socketServer = (socket) => {
-  //const userId = socket.verified.userId;
   const { userId, firstName, lastName, picturePath } = socket.verified;
   users.push({ userId, socketId: socket.id });
-  console.log(userId, firstName, lastName, picturePath);
+  //console.log(userId, firstName, lastName, picturePath);
 
   socket.on("send-message", (recipientUserId, user, content) => {
     const recipient = users.find((user) => user.userId === recipientUserId);

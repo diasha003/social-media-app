@@ -52,15 +52,12 @@ export const getPostComments = async (req, res) => {
       const comment = comments[i];
       if (comment.parent) {
         let commentParent = commentParents[comment.parent];
-        //console.log(commentParent);
         commentParent.children = [...commentParent.children, comment];
-        //console.log(commentParent);
       } else {
         rootComments = [...rootComments, comment];
       }
     }
 
-    //console.log(rootComments);
     res.status(200).json({ comments: rootComments });
   } catch (err) {
     res.status(404).json({ error: err.message });
@@ -85,8 +82,6 @@ export const deleteComment = async (req, res) => {
     post.commentCount = (await Comment.find({ post: post._id })).length;
     await post.save();
 
-    //console.log(comment);
-
     res.status(200).json(comment);
   } catch (err) {
     res.status(404).json({ error: err.message });
@@ -95,8 +90,6 @@ export const deleteComment = async (req, res) => {
 
 export const updateComment = async (req, res) => {
   try {
-    //console.log(req.params);
-    //console.log(req.body);
     const commentId = req.params.id;
     const { content } = req.body;
 
