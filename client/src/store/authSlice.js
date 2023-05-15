@@ -29,6 +29,7 @@ const authSlice = createSlice({
       state.token = null;
       state.userFriends = [];
       state.friendFriends = [];
+      state.allFilterFriends = [];
     },
     setFriends(state, action) {
       state.userFriends = action.payload.friends;
